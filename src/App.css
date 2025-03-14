@@ -40,3 +40,21 @@
 .read-the-docs {
   color: #888;
 }
+
+.timeline-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+.timeline {
+  flex: 1;
+  max-width: 800px;
+  text-align: left; /* let text align naturally */
+}
+
+.timeline .MuiTypography-root {
+  font-size: 1rem;
+  line-height: 1.4;
+  max-width: 100%; /* allow wider text wrapping */
+}
