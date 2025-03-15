@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import Timeline from "@mui/lab/Timeline";
 import TimelineItem from "@mui/lab/TimelineItem";
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
@@ -9,47 +8,32 @@ import TimelineContent, {
 import TimelineDot from "@mui/lab/TimelineDot";
 import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
 import { Typography } from "@mui/material";
-import { Episode } from "./types";
 import { Colors } from "./styles/colors";
+import allMedia from "./data/all_media.json";
 
 const CustomTimeline = () => {
-  const [episodes, setEpisodes] = useState<Episode[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const media_items = [...allMedia].sort(
+    (a, b) => new Date(b.date_published).getTime() - new Date(a.date_published).getTime()
+  );
 
-  useEffect(() => {
-    fetch("http://127.0.0.1:3000/api/v1/episodes")
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch episodes");
-        return res.json();
-      })
-      .then((data) => {
-        setEpisodes(data.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading) return <Typography>Loading...</Typography>;
-  if (error) return <Typography color="error">Error: {error}</Typography>;
-
-  const getDotColor = (show: string, collection: string): string => {
+  const getDotColor = (show: string | null, collection: string): string => {
     switch (collection) {
       case "Bonus Content":
         return Colors.green;
       case "Oscar Specials":
         return Colors.yellow;
+      case "news":
+        return Colors.green;
     }
 
     switch (show) {
       case "on_cinema":
         return Colors.red;
       case "heilot":
-        return Colors.blue;
+        return Colors.green;
       case "Decker":
+        return Colors.blue;
+      case "on_cinema_podcast":
         return Colors.purple;
       default:
         return Colors.default;
@@ -66,11 +50,11 @@ const CustomTimeline = () => {
           },
         }}
       >
-        {episodes.map((ep, idx) => (
-          <TimelineItem key={ep.id}>
+        {media_items.map((media, idx) => (
+          <TimelineItem key={idx}>
             <TimelineOppositeContent color="textSecondary">
               <Typography variant="body2">
-                {new Date(ep.attributes.aired_at).toLocaleDateString(
+                {new Date(media.date_published).toLocaleDateString(
                   undefined,
                   {
                     year: "numeric",
@@ -83,27 +67,24 @@ const CustomTimeline = () => {
             <TimelineSeparator>
               <TimelineDot
                 sx={{
-                  backgroundColor: getDotColor(
-                    ep.attributes.show,
-                    ep.attributes.collection,
-                  ),
+                  backgroundColor: getDotColor(media.show, media.collection),
                 }}
               />
-              {idx < episodes.length - 1 && <TimelineConnector />}
+              {idx < media_items.length - 1 && <TimelineConnector />}
             </TimelineSeparator>
             <TimelineContent>
               <Typography variant="h6">
-                {ep.attributes.episode_url ? (
+                {media.url ? (
                   <a
-                    href={ep.attributes.episode_url}
+                    href={media.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{ textDecoration: "none", color: "#1e88e5" }}
                   >
-                    {ep.attributes.episode_title}
+                    {media.title}
                   </a>
                 ) : (
-                  ep.attributes.episode_title
+                  media.title
                 )}
               </Typography>
             </TimelineContent>
