@@ -85,6 +85,12 @@ const CustomTimeline = () => {
     }
   };
 
+  const formatLabel = (str: string) =>
+    str
+      .split("_")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+
   return (
     <div style={{ display: "flex", width: "100%", minHeight: "80vh", minWidth: "1000px" }}>
       <div
@@ -136,8 +142,7 @@ const CustomTimeline = () => {
             return (
               <React.Fragment key={idx}>
                 {showYearHeader && (
-                  <TimelineItem>
-                    <TimelineSeparator />
+                  <TimelineItem sx={{ mb: 3 }}>
                     <TimelineContent>
                       <Typography
                         id={`year-${mediaYear}`}
@@ -150,7 +155,7 @@ const CustomTimeline = () => {
                     </TimelineContent>
                   </TimelineItem>
                 )}
-                <TimelineItem>
+                <TimelineItem sx={{ mb: 3 }}>
                   <TimelineOppositeContent color="textSecondary">
                     <Typography variant="body2">
                       {new Date(media.date_published).toLocaleDateString(undefined, {
@@ -166,9 +171,19 @@ const CustomTimeline = () => {
                         backgroundColor: getDotColor(media.show, media.collection),
                       }}
                     />
-                    {idx < media_items.length - 1 && <TimelineConnector />}
+                    {idx < media_items.length - 1 && !(showYearHeader && idx === media_items.length - 1) && <TimelineConnector />}
                   </TimelineSeparator>
                   <TimelineContent>
+                    {media.show && (
+                      <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
+                        {formatLabel(media.show)}
+                      </Typography>
+                    )}
+                    {media.collection && (
+                      <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
+                        {formatLabel(media.collection)}
+                      </Typography>
+                    )}
                     <Typography variant="h6">
                       {media.url ? (
                         <a
