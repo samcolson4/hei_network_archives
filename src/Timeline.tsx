@@ -142,20 +142,19 @@ const CustomTimeline = () => {
             return (
               <React.Fragment key={idx}>
                 {showYearHeader && (
-                  <TimelineItem sx={{ mb: 3 }}>
+                  <TimelineItem>
                     <TimelineContent>
                       <Typography
                         id={`year-${mediaYear}`}
                         data-year={mediaYear}
-                        variant="h3"
-                        sx={{ mt: 2, mb: 1 }}
+                        variant="h1"
                       >
                         {mediaYear}
                       </Typography>
                     </TimelineContent>
                   </TimelineItem>
                 )}
-                <TimelineItem sx={{ mb: 3 }}>
+                <TimelineItem>
                   <TimelineOppositeContent color="textSecondary">
                     <Typography variant="body2">
                       {new Date(media.date_published).toLocaleDateString(undefined, {
@@ -174,16 +173,7 @@ const CustomTimeline = () => {
                     {idx < media_items.length - 1 && !(showYearHeader && idx === media_items.length - 1) && <TimelineConnector />}
                   </TimelineSeparator>
                   <TimelineContent>
-                    {media.show && (
-                      <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
-                        {formatLabel(media.show)}
-                      </Typography>
-                    )}
-                    {media.collection && (
-                      <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
-                        {formatLabel(media.collection)}
-                      </Typography>
-                    )}
+                    {/* title */}
                     <Typography variant="h6">
                       {media.url ? (
                         <a
@@ -198,6 +188,18 @@ const CustomTimeline = () => {
                         media.title
                       )}
                     </Typography>
+                    {/* show */}
+                    {media.show && (
+                      <Typography variant="subtitle1" sx={{ mb: 0.0 }}>
+                        {formatLabel(media.show)}
+                      </Typography>
+                    )}
+                    {/* collection */}
+                    {media.collection && (
+                      <Typography variant="subtitle1" sx={{ mb: 0.0 }}>
+                        {formatLabel(media.collection)}
+                      </Typography>
+                    )}
                   </TimelineContent>
                 </TimelineItem>
               </React.Fragment>
