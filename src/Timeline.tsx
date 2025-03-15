@@ -53,49 +53,6 @@ const CustomTimeline = () => {
 
   return (
   <div style={{ display: "flex", width: "100%", minHeight: "80vh", minWidth: "1000px" }}>
-      <div
-        style={{
-          width: "240px",
-          padding: "1rem",
-          boxSizing: "border-box",
-          borderRight: "1px solid #ccc",
-          backgroundColor: "#f8f8f8",
-        }}
-      >
-        <button
-          onClick={() => setSelectedCollection(null)}
-          style={{
-            padding: "0.5rem",
-            width: "100%",
-            textAlign: "left",
-            border: "none",
-            backgroundColor: selectedCollection === null ? "#1976d2" : "#e0e0e0",
-            color: selectedCollection === null ? "#fff" : "#000",
-            cursor: "pointer",
-            borderRadius: "4px",
-          }}
-        >
-          All Collections
-        </button>
-        {uniqueCollections.map((collection) => (
-          <button
-            key={collection}
-            onClick={() => setSelectedCollection(collection)}
-            style={{
-              padding: "0.5rem",
-              width: "100%",
-              textAlign: "left",
-              border: "none",
-              backgroundColor: selectedCollection === collection ? "#1976d2" : "#e0e0e0",
-              color: selectedCollection === collection ? "#fff" : "#000",
-              cursor: "pointer",
-              borderRadius: "4px",
-            }}
-          >
-            {collection}
-          </button>
-        ))}
-      </div>
       <div style={{ flex: 1, padding: "1rem", boxSizing: "border-box", minHeight: "80vh" }}>
         <Timeline
           className="timeline"
