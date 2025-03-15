@@ -1,50 +1,17 @@
-# React + TypeScript + Vite
+# README
+## HEI Network Archives
+<img src="https://www.heinetwork.tv/wp-content/uploads/2021/03/logo_block-1-rev.jpg" alt="HEI logo" width="300">
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a project to create a more up to date source of information for the On Cinema At The Cinema universe, a project backed at first by Adult Swim and latterly backed by the HEI Network.
 
-Currently, two official plugins are available:
+There is an existing [On Cinema Timeline](https://oncinematimeline.com), which has loads of amazing information and [tools](https://oncinematimeline.com/victorville-coding-system). Sadly the last time it was updated was 2019, so it's a long way out of date.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Development
+Run this project by cloning the repo, doing an `npm install` then running:
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```
+npm run dev
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## Related repos
+[HEI scraper](https://github.com/samcolson4/hei_scraper)
