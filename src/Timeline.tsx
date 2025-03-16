@@ -18,7 +18,7 @@ const CustomTimeline = () => {
   const [activeYear, setActiveYear] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc");
-  const [selectedMedia, setSelectedMedia] = useState(null);
+  const [selectedMedia, setSelectedMedia] = useState<typeof allMedia[number] | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   let currentYear: string | null = null;
 
@@ -249,6 +249,18 @@ const CustomTimeline = () => {
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         media={selectedMedia}
+        onPrev={() => {
+          if (!selectedMedia) return;
+          const currentIndex = sortedMediaItems.findIndex((m) => m.title === selectedMedia.title);
+          const prevIndex = (currentIndex - 1 + sortedMediaItems.length) % sortedMediaItems.length;
+          setSelectedMedia(sortedMediaItems[prevIndex]);
+        }}
+        onNext={() => {
+          if (!selectedMedia) return;
+          const currentIndex = sortedMediaItems.findIndex((m) => m.title === selectedMedia.title);
+          const nextIndex = (currentIndex + 1) % sortedMediaItems.length;
+          setSelectedMedia(sortedMediaItems[nextIndex]);
+        }}
       />
     </>
   );

@@ -21,13 +21,15 @@ interface MediaModalProps {
     title: string;
     date_published: string;
     url?: string;
-    show?: string;
+  show?: string | null;
     collection?: string;
     poster_url?: string;
   } | null;
+  onPrev: () => void;
+  onNext: () => void;
 }
 
-const MediaModal: React.FC<MediaModalProps> = ({ open, onClose, media }) => {
+const MediaModal: React.FC<MediaModalProps> = ({ open, onClose, media, onPrev, onNext }) => {
   if (!media) return null;
 
   const formatLabel = (str: string) =>
@@ -39,6 +41,28 @@ const MediaModal: React.FC<MediaModalProps> = ({ open, onClose, media }) => {
   return (
     <Modal open={open} onClose={onClose}>
       <Box sx={style}>
+        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
+          <button onClick={onPrev} style={{ fontSize: "1.5rem", cursor: "pointer", border: "none", background: "none" }}>
+            ◀
+          </button>
+          <Typography variant="h6" sx={{ flex: 1, textAlign: "center" }}>
+            {media.url ? (
+              <a
+                href={media.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ textDecoration: "none", color: "#1e88e5" }}
+              >
+                {media.title}
+              </a>
+            ) : (
+              media.title
+            )}
+          </Typography>
+          <button onClick={onNext} style={{ fontSize: "1.5rem", cursor: "pointer", border: "none", background: "none" }}>
+            ▶
+          </button>
+        </Box>
         {media.poster_url && (
           <Box sx={{ mb: 2 }}>
             <img
@@ -48,15 +72,6 @@ const MediaModal: React.FC<MediaModalProps> = ({ open, onClose, media }) => {
             />
           </Box>
         )}
-        <Typography variant="h6" gutterBottom>
-          {media.url ? (
-            <a href={media.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", color: "#1e88e5" }}>
-              {media.title}
-            </a>
-          ) : (
-            media.title
-          )}
-        </Typography>
         <Typography variant="body2" gutterBottom>
           {new Date(media.date_published).toLocaleDateString(undefined, {
             year: "numeric",
