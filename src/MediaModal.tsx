@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, Box, Typography } from "@mui/material";
-import ArrowBackIosIcon  from '@mui/icons-material/ArrowBackIos';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 const style = {
   position: "absolute" as const,
@@ -12,6 +12,7 @@ const style = {
   maxWidth: 500,
   bgcolor: "background.paper",
   border: "2px solid #000",
+  borderRadius: "8px",
   boxShadow: 24,
   p: 4,
 };
@@ -23,7 +24,7 @@ interface MediaModalProps {
     title: string;
     date_published: string;
     url?: string;
-  show?: string | null;
+    show?: string | null;
     collection?: string;
     poster_url?: string;
   } | null;
@@ -31,7 +32,13 @@ interface MediaModalProps {
   onNext: () => void;
 }
 
-const MediaModal: React.FC<MediaModalProps> = ({ open, onClose, media, onPrev, onNext }) => {
+const MediaModal: React.FC<MediaModalProps> = ({
+  open,
+  onClose,
+  media,
+  onPrev,
+  onNext,
+}) => {
   if (!media) return null;
 
   const formatLabel = (str: string) =>
@@ -43,7 +50,7 @@ const MediaModal: React.FC<MediaModalProps> = ({ open, onClose, media, onPrev, o
   return (
     <Modal open={open} onClose={onClose}>
       <Box sx={style}>
-      {media.poster_url && (
+        {media.poster_url && (
           <Box sx={{ mb: 2 }}>
             <img
               src={media.poster_url}
@@ -52,10 +59,20 @@ const MediaModal: React.FC<MediaModalProps> = ({ open, onClose, media, onPrev, o
             />
           </Box>
         )}
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
-            <button onClick={onPrev} style={{ cursor: "pointer", border: "none", background: "none" }}>
-              <ArrowBackIosIcon />
-            </button>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 2,
+          }}
+        >
+          <button
+            onClick={onPrev}
+            style={{ cursor: "pointer", border: "none", background: "none" }}
+          >
+            <ArrowBackIosIcon />
+          </button>
           <Typography variant="h6" sx={{ flex: 1, textAlign: "center" }}>
             {media.url ? (
               <a
@@ -70,7 +87,10 @@ const MediaModal: React.FC<MediaModalProps> = ({ open, onClose, media, onPrev, o
               media.title
             )}
           </Typography>
-          <button onClick={onNext} style={{ fontSize: "1.5rem", cursor: "pointer", border: "none", background: "none" }}>
+          <button
+            onClick={onNext}
+            style={{ cursor: "pointer", border: "none", background: "none" }}
+          >
             <ArrowForwardIosIcon />
           </button>
         </Box>
@@ -85,7 +105,9 @@ const MediaModal: React.FC<MediaModalProps> = ({ open, onClose, media, onPrev, o
           <Typography variant="subtitle1">{formatLabel(media.show)}</Typography>
         )}
         {media.collection && (
-          <Typography variant="subtitle1">{formatLabel(media.collection)}</Typography>
+          <Typography variant="subtitle1">
+            {formatLabel(media.collection)}
+          </Typography>
         )}
       </Box>
     </Modal>

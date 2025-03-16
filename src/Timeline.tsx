@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useSearchParams } from "react-router-dom";
 import Timeline from "@mui/lab/Timeline";
 import TimelineItem from "@mui/lab/TimelineItem";
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
@@ -9,7 +10,7 @@ import TimelineContent, {
 import TimelineDot from "@mui/lab/TimelineDot";
 import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
 import { Typography, ToggleButton, Box } from "@mui/material";
-import SwapVertIcon from '@mui/icons-material/SwapVert';
+import SwapVertIcon from "@mui/icons-material/SwapVert";
 import { Colors } from "./styles/colors";
 import allMedia from "./data/all_media.json";
 import MediaModal from "./MediaModal";
@@ -18,8 +19,12 @@ const CustomTimeline = () => {
   const [activeYear, setActiveYear] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc");
-  const [selectedMedia, setSelectedMedia] = useState<typeof allMedia[number] | null>(null);
+  const [selectedMedia, setSelectedMedia] = useState<
+    (typeof allMedia)[number] | null
+  >(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const hasOpenedFromURL = useRef(false);
   let currentYear: string | null = null;
 
   useEffect(() => {
@@ -34,8 +39,25 @@ const CustomTimeline = () => {
     return sortOrder === "desc" ? bTime - aTime : aTime - bTime;
   });
 
+  useEffect(() => {
+    if (hasOpenedFromURL.current) return;
+    const titleFromURL = searchParams.get("modal");
+    if (titleFromURL) {
+      const foundMedia = sortedMediaItems.find((m) => m.title === titleFromURL);
+      if (foundMedia) {
+        setSelectedMedia(foundMedia);
+        setModalOpen(true);
+        hasOpenedFromURL.current = true;
+      }
+    }
+  }, [searchParams, sortedMediaItems]);
+
   const allYears = Array.from(
-    new Set(sortedMediaItems.map((m) => new Date(m.date_published).getFullYear().toString()))
+    new Set(
+      sortedMediaItems.map((m) =>
+        new Date(m.date_published).getFullYear().toString()
+      )
+    )
   );
   allYears.sort((a, b) =>
     sortOrder === "desc" ? Number(b) - Number(a) : Number(a) - Number(b)
@@ -99,7 +121,16 @@ const CustomTimeline = () => {
 
   return (
     <>
-      <div style={{ display: "flex", width: "100%", minHeight: "80vh", flexWrap: "nowrap", alignItems: "flex-start", gap: "0.5rem" }}>
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+          minHeight: "80vh",
+          flexWrap: "nowrap",
+          alignItems: "flex-start",
+          gap: "0.5rem",
+        }}
+      >
         <div
           style={{
             width: "60px",
@@ -114,7 +145,9 @@ const CustomTimeline = () => {
           <ToggleButton
             value="sortToggle"
             selected={sortOrder === "desc"}
-            onChange={() => setSortOrder((prev) => (prev === "desc" ? "asc" : "desc"))}
+            onChange={() =>
+              setSortOrder((prev) => (prev === "desc" ? "asc" : "desc"))
+            }
             style={{
               padding: "0.25rem",
               marginBottom: "0.75rem",
@@ -128,7 +161,8 @@ const CustomTimeline = () => {
               key={year}
               onClick={() => {
                 const el = document.getElementById(`year-${year}`);
-                if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+                if (el)
+                  el.scrollIntoView({ behavior: "smooth", block: "start" });
               }}
               style={{
                 display: "block",
@@ -145,7 +179,14 @@ const CustomTimeline = () => {
             </button>
           ))}
         </div>
-        <div style={{ flex: 1, padding: "0.25rem 0.25rem 0.25rem 0", boxSizing: "border-box", minHeight: "80vh" }}>
+        <div
+          style={{
+            flex: 1,
+            padding: "0.25rem 0.25rem 0.25rem 0",
+            boxSizing: "border-box",
+            minHeight: "80vh",
+          }}
+        >
           <Timeline
             className="timeline"
             sx={{
@@ -155,7 +196,9 @@ const CustomTimeline = () => {
             }}
           >
             {sortedMediaItems.map((media, idx) => {
-              const mediaYear = new Date(media.date_published).getFullYear().toString();
+              const mediaYear = new Date(media.date_published)
+                .getFullYear()
+                .toString();
               const showYearHeader = mediaYear !== currentYear;
               if (showYearHeader) currentYear = mediaYear;
 
@@ -163,7 +206,9 @@ const CustomTimeline = () => {
                 <React.Fragment key={idx}>
                   {showYearHeader && (
                     <TimelineItem>
-                      <TimelineOppositeContent sx={{ textAlign: "left", paddingTop: "1rem" }}>
+                      <TimelineOppositeContent
+                        sx={{ textAlign: "left", paddingTop: "1rem" }}
+                      >
                         <Typography
                           id={`year-${mediaYear}`}
                           data-year={mediaYear}
@@ -179,49 +224,64 @@ const CustomTimeline = () => {
                   <TimelineItem>
                     <TimelineOppositeContent color="textSecondary">
                       <Typography variant="body2">
-                        {new Date(media.date_published).toLocaleDateString(undefined, {
-                          year: "numeric",
-                          month: "short",
-                          day: "numeric",
-                        })}
+                        {new Date(media.date_published).toLocaleDateString(
+                          undefined,
+                          {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                          }
+                        )}
                       </Typography>
                     </TimelineOppositeContent>
                     <TimelineSeparator>
                       <TimelineDot
                         sx={{
-                          backgroundColor: getDotColor(media.show, media.collection),
+                          backgroundColor: getDotColor(
+                            media.show,
+                            media.collection
+                          ),
                         }}
                       />
-                      {idx < sortedMediaItems.length - 1 && !(showYearHeader && idx === sortedMediaItems.length - 1) && <TimelineConnector />}
+                      {idx < sortedMediaItems.length - 1 &&
+                        !(
+                          showYearHeader && idx === sortedMediaItems.length - 1
+                        ) && <TimelineConnector />}
                     </TimelineSeparator>
                     <TimelineContent>
                       <Box
                         onClick={() => {
                           setSelectedMedia(media);
                           setModalOpen(true);
+                          setSearchParams({ modal: media.title });
                         }}
                         sx={{
                           cursor: "pointer",
                           border: "2px solid #ccc",
                           borderRadius: "8px",
                           padding: "0.5rem",
-                          transition: "box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out",
+                          transition:
+                            "box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out",
                           "&:hover": {
                             boxShadow: "0 0 10px rgba(30, 136, 229, 0.6)",
                             borderColor: "#1e88e5",
                           },
                         }}
                       >
-                        <Typography variant="h6">
-                            {media.title}
-                        </Typography>
+                        <Typography variant="h6">{media.title}</Typography>
                         {media.show && (
-                          <Typography variant="subtitle1" sx={{ mb: 0.0, fontStyle: "italic" }}>
+                          <Typography
+                            variant="subtitle1"
+                            sx={{ mb: 0.0, fontStyle: "italic" }}
+                          >
                             {formatLabel(media.show)}
                           </Typography>
                         )}
                         {media.collection && (
-                          <Typography variant="subtitle1" sx={{ mb: 0.0, fontStyle: "italic" }}>
+                          <Typography
+                            variant="subtitle1"
+                            sx={{ mb: 0.0, fontStyle: "italic" }}
+                          >
                             {formatLabel(media.collection)}
                           </Typography>
                         )}
@@ -236,19 +296,32 @@ const CustomTimeline = () => {
       </div>
       <MediaModal
         open={modalOpen}
-        onClose={() => setModalOpen(false)}
+        onClose={() => {
+          setModalOpen(false);
+          setSearchParams({});
+        }}
         media={selectedMedia}
         onPrev={() => {
           if (!selectedMedia) return;
-          const currentIndex = sortedMediaItems.findIndex((m) => m.title === selectedMedia.title);
-          const prevIndex = (currentIndex - 1 + sortedMediaItems.length) % sortedMediaItems.length;
-          setSelectedMedia(sortedMediaItems[prevIndex]);
+          const currentIndex = sortedMediaItems.findIndex(
+            (m) => m.title === selectedMedia.title
+          );
+          const prevIndex =
+            (currentIndex - 1 + sortedMediaItems.length) %
+            sortedMediaItems.length;
+          const prevMedia = sortedMediaItems[prevIndex];
+          setSelectedMedia(prevMedia);
+          setSearchParams({ modal: prevMedia.title });
         }}
         onNext={() => {
           if (!selectedMedia) return;
-          const currentIndex = sortedMediaItems.findIndex((m) => m.title === selectedMedia.title);
+          const currentIndex = sortedMediaItems.findIndex(
+            (m) => m.title === selectedMedia.title
+          );
           const nextIndex = (currentIndex + 1) % sortedMediaItems.length;
-          setSelectedMedia(sortedMediaItems[nextIndex]);
+          const nextMedia = sortedMediaItems[nextIndex];
+          setSelectedMedia(nextMedia);
+          setSearchParams({ modal: nextMedia.title });
         }}
       />
     </>
