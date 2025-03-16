@@ -136,7 +136,7 @@ const CustomTimeline = () => {
             width: "60px",
             padding: "0.25rem",
             position: "sticky",
-            top: "90px",
+            top: "115px",
             alignSelf: "flex-start",
             height: "fit-content",
             display: isMobile ? "none" : "block",
