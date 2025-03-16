@@ -1,5 +1,7 @@
 import React from "react";
 import { Modal, Box, Typography } from "@mui/material";
+import ArrowBackIosIcon  from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 const style = {
   position: "absolute" as const,
@@ -41,10 +43,19 @@ const MediaModal: React.FC<MediaModalProps> = ({ open, onClose, media, onPrev, o
   return (
     <Modal open={open} onClose={onClose}>
       <Box sx={style}>
+      {media.poster_url && (
+          <Box sx={{ mb: 2 }}>
+            <img
+              src={media.poster_url}
+              alt={media.title}
+              style={{ maxWidth: "100%", height: "auto", borderRadius: "4px" }}
+            />
+          </Box>
+        )}
         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
-          <button onClick={onPrev} style={{ fontSize: "1.5rem", cursor: "pointer", border: "none", background: "none" }}>
-            ◀
-          </button>
+            <button onClick={onPrev} style={{ cursor: "pointer", border: "none", background: "none" }}>
+              <ArrowBackIosIcon />
+            </button>
           <Typography variant="h6" sx={{ flex: 1, textAlign: "center" }}>
             {media.url ? (
               <a
@@ -60,18 +71,9 @@ const MediaModal: React.FC<MediaModalProps> = ({ open, onClose, media, onPrev, o
             )}
           </Typography>
           <button onClick={onNext} style={{ fontSize: "1.5rem", cursor: "pointer", border: "none", background: "none" }}>
-            ▶
+            <ArrowForwardIosIcon />
           </button>
         </Box>
-        {media.poster_url && (
-          <Box sx={{ mb: 2 }}>
-            <img
-              src={media.poster_url}
-              alt={media.title}
-              style={{ maxWidth: "100%", height: "auto", borderRadius: "4px" }}
-            />
-          </Box>
-        )}
         <Typography variant="body2" gutterBottom>
           {new Date(media.date_published).toLocaleDateString(undefined, {
             year: "numeric",

@@ -213,26 +213,15 @@ const CustomTimeline = () => {
                         }}
                       >
                         <Typography variant="h6">
-                          {media.url ? (
-                            <a
-                              href={media.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              style={{ textDecoration: "none", color: "#1e88e5" }}
-                            >
-                              {media.title}
-                            </a>
-                          ) : (
-                            media.title
-                          )}
+                            {media.title}
                         </Typography>
                         {media.show && (
-                          <Typography variant="subtitle1" sx={{ mb: 0.0 }}>
+                          <Typography variant="subtitle1" sx={{ mb: 0.0, fontStyle: "italic" }}>
                             {formatLabel(media.show)}
                           </Typography>
                         )}
                         {media.collection && (
-                          <Typography variant="subtitle1" sx={{ mb: 0.0 }}>
+                          <Typography variant="subtitle1" sx={{ mb: 0.0, fontStyle: "italic" }}>
                             {formatLabel(media.collection)}
                           </Typography>
                         )}
