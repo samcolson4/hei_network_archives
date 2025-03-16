@@ -16,7 +16,14 @@ import React from "react";
 const CustomTimeline = () => {
   const [selectedCollection, setSelectedCollection] = useState<string | null>(null);
   const [activeYear, setActiveYear] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   let currentYear: string | null = null;
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const uniqueCollections = Array.from(
     new Set(allMedia.map((media) => media.collection))
@@ -92,7 +99,7 @@ const CustomTimeline = () => {
       .join(" ");
 
   return (
-    <div style={{ display: "flex", width: "100%", minHeight: "80vh", minWidth: "1000px" }}>
+    <div style={{ display: "flex", width: "100%", minHeight: "80vh", flexWrap: "wrap" }}>
       <div
         style={{
           width: "100px",
@@ -101,6 +108,7 @@ const CustomTimeline = () => {
           top: 0,
           alignSelf: "flex-start",
           height: "fit-content",
+          display: isMobile ? "none" : "block",
         }}
       >
         {allYears.map((year) => (
@@ -143,15 +151,17 @@ const CustomTimeline = () => {
               <React.Fragment key={idx}>
                 {showYearHeader && (
                   <TimelineItem>
-                    <TimelineContent>
+                    <TimelineOppositeContent sx={{ textAlign: "left", paddingTop: "1rem" }}>
                       <Typography
                         id={`year-${mediaYear}`}
                         data-year={mediaYear}
-                        variant="h1"
+                        variant="h3"
                       >
                         {mediaYear}
                       </Typography>
-                    </TimelineContent>
+                    </TimelineOppositeContent>
+                    <TimelineSeparator />
+                    <TimelineContent />
                   </TimelineItem>
                 )}
                 <TimelineItem>
