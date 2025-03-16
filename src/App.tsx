@@ -4,10 +4,10 @@ import CustomTimeline from "./Timeline";
 function App() {
   return (
     <>
-      <h1>HEI Network Official* Archives</h1>
-      <p>* completely unofficial</p>
-
-      <CustomTimeline/>
+      <div style={{ position: "sticky", top: 0, zIndex: 1000, backgroundColor: "white", borderBottom: "1px solid #ccc" }}>
+        <h1>HEI Network Archives</h1>
+      </div>
+      <CustomTimeline />
     </>
   );
 }

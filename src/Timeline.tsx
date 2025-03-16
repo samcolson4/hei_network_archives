@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import Timeline from "@mui/lab/Timeline";
 import TimelineItem from "@mui/lab/TimelineItem";
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
@@ -8,13 +9,10 @@ import TimelineContent, {
 import TimelineDot from "@mui/lab/TimelineDot";
 import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
 import { Typography } from "@mui/material";
-import { useState, useEffect } from "react";
 import { Colors } from "./styles/colors";
 import allMedia from "./data/all_media.json";
-import React from "react";
 
 const CustomTimeline = () => {
-  const [selectedCollection, setSelectedCollection] = useState<string | null>(null);
   const [activeYear, setActiveYear] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   let currentYear: string | null = null;
@@ -25,14 +23,7 @@ const CustomTimeline = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const uniqueCollections = Array.from(
-    new Set(allMedia.map((media) => media.collection))
-  );
-
   const media_items = [...allMedia]
-    .filter((media) =>
-      selectedCollection ? media.collection === selectedCollection : true
-    )
     .sort(
       (a, b) => new Date(b.date_published).getTime() - new Date(a.date_published).getTime()
     );
@@ -99,125 +90,127 @@ const CustomTimeline = () => {
       .join(" ");
 
   return (
-    <div style={{ display: "flex", width: "100%", minHeight: "80vh", flexWrap: "wrap" }}>
-      <div
-        style={{
-          width: "100px",
-          padding: "1rem",
-          position: "sticky",
-          top: 0,
-          alignSelf: "flex-start",
-          height: "fit-content",
-          display: isMobile ? "none" : "block",
-        }}
-      >
-        {allYears.map((year) => (
-          <button
-            key={year}
-            onClick={() => {
-              const el = document.getElementById(`year-${year}`);
-              if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-            }}
-            style={{
-              display: "block",
-              marginBottom: "0.5rem",
-              cursor: "pointer",
-              width: "100%",
-              padding: "0.5rem",
-              fontWeight: activeYear === year ? "bold" : "normal",
-              backgroundColor: activeYear === year ? "#ddd" : "transparent",
-              border: activeYear === year ? "2px solid #aaa" : "none",
-            }}
-          >
-            {year}
-          </button>
-        ))}
-      </div>
-      <div style={{ flex: 1, padding: "1rem", boxSizing: "border-box", minHeight: "80vh" }}>
-        <Timeline
-          className="timeline"
-          sx={{
-            [`& .${timelineContentClasses.root}`]: {
-              flex: 1,
-            },
+    <>
+      <div style={{ display: "flex", width: "100%", minHeight: "80vh", flexWrap: "wrap" }}>
+        <div
+          style={{
+            width: "100px",
+            padding: "1rem",
+            position: "sticky",
+            top: "80px",
+            alignSelf: "flex-start",
+            height: "fit-content",
+            display: isMobile ? "none" : "block",
           }}
         >
-          {media_items.map((media, idx) => {
-            const mediaYear = new Date(media.date_published).getFullYear().toString();
-            const showYearHeader = mediaYear !== currentYear;
-            if (showYearHeader) currentYear = mediaYear;
+          {allYears.map((year) => (
+            <button
+              key={year}
+              onClick={() => {
+                const el = document.getElementById(`year-${year}`);
+                if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+              style={{
+                display: "block",
+                marginBottom: "0.5rem",
+                cursor: "pointer",
+                width: "100%",
+                padding: "0.5rem",
+                fontWeight: activeYear === year ? "bold" : "normal",
+                backgroundColor: activeYear === year ? "#ddd" : "transparent",
+                border: activeYear === year ? "2px solid #aaa" : "none",
+              }}
+            >
+              {year}
+            </button>
+          ))}
+        </div>
+        <div style={{ flex: 1, padding: "1rem", boxSizing: "border-box", minHeight: "80vh" }}>
+          <Timeline
+            className="timeline"
+            sx={{
+              [`& .${timelineContentClasses.root}`]: {
+                flex: 1,
+              },
+            }}
+          >
+            {media_items.map((media, idx) => {
+              const mediaYear = new Date(media.date_published).getFullYear().toString();
+              const showYearHeader = mediaYear !== currentYear;
+              if (showYearHeader) currentYear = mediaYear;
 
-            return (
-              <React.Fragment key={idx}>
-                {showYearHeader && (
+              return (
+                <React.Fragment key={idx}>
+                  {showYearHeader && (
+                    <TimelineItem>
+                      <TimelineOppositeContent sx={{ textAlign: "left", paddingTop: "1rem" }}>
+                        <Typography
+                          id={`year-${mediaYear}`}
+                          data-year={mediaYear}
+                          variant="h3"
+                        >
+                          {mediaYear}
+                        </Typography>
+                      </TimelineOppositeContent>
+                      <TimelineSeparator />
+                      <TimelineContent />
+                    </TimelineItem>
+                  )}
                   <TimelineItem>
-                    <TimelineOppositeContent sx={{ textAlign: "left", paddingTop: "1rem" }}>
-                      <Typography
-                        id={`year-${mediaYear}`}
-                        data-year={mediaYear}
-                        variant="h3"
-                      >
-                        {mediaYear}
+                    <TimelineOppositeContent color="textSecondary">
+                      <Typography variant="body2">
+                        {new Date(media.date_published).toLocaleDateString(undefined, {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        })}
                       </Typography>
                     </TimelineOppositeContent>
-                    <TimelineSeparator />
-                    <TimelineContent />
-                  </TimelineItem>
-                )}
-                <TimelineItem>
-                  <TimelineOppositeContent color="textSecondary">
-                    <Typography variant="body2">
-                      {new Date(media.date_published).toLocaleDateString(undefined, {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                      })}
-                    </Typography>
-                  </TimelineOppositeContent>
-                  <TimelineSeparator>
-                    <TimelineDot
-                      sx={{
-                        backgroundColor: getDotColor(media.show, media.collection),
-                      }}
-                    />
-                    {idx < media_items.length - 1 && !(showYearHeader && idx === media_items.length - 1) && <TimelineConnector />}
-                  </TimelineSeparator>
-                  <TimelineContent>
-                    {/* title */}
-                    <Typography variant="h6">
-                      {media.url ? (
-                        <a
-                          href={media.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{ textDecoration: "none", color: "#1e88e5" }}
-                        >
-                          {media.title}
-                        </a>
-                      ) : (
-                        media.title
+                    <TimelineSeparator>
+                      <TimelineDot
+                        sx={{
+                          backgroundColor: getDotColor(media.show, media.collection),
+                        }}
+                      />
+                      {idx < media_items.length - 1 && !(showYearHeader && idx === media_items.length - 1) && <TimelineConnector />}
+                    </TimelineSeparator>
+                    <TimelineContent>
+                      {/* title */}
+                      <Typography variant="h6">
+                        {media.url ? (
+                          <a
+                            href={media.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ textDecoration: "none", color: "#1e88e5" }}
+                          >
+                            {media.title}
+                          </a>
+                        ) : (
+                          media.title
+                        )}
+                      </Typography>
+                      {/* show */}
+                      {media.show && (
+                        <Typography variant="subtitle1" sx={{ mb: 0.0 }}>
+                          {formatLabel(media.show)}
+                        </Typography>
                       )}
-                    </Typography>
-                    {/* show */}
-                    {media.show && (
-                      <Typography variant="subtitle1" sx={{ mb: 0.0 }}>
-                        {formatLabel(media.show)}
-                      </Typography>
-                    )}
-                    {/* collection */}
-                    {media.collection && (
-                      <Typography variant="subtitle1" sx={{ mb: 0.0 }}>
-                        {formatLabel(media.collection)}
-                      </Typography>
-                    )}
-                  </TimelineContent>
-                </TimelineItem>
-              </React.Fragment>
-            );
-          })}
-        </Timeline>
+                      {/* collection */}
+                      {media.collection && (
+                        <Typography variant="subtitle1" sx={{ mb: 0.0 }}>
+                          {formatLabel(media.collection)}
+                        </Typography>
+                      )}
+                    </TimelineContent>
+                  </TimelineItem>
+                </React.Fragment>
+              );
+            })}
+          </Timeline>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
