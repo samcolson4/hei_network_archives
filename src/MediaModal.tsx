@@ -59,10 +59,18 @@ const MediaModal: React.FC<MediaModalProps> = ({
             }}
           >
             {media.show === "on_cinema" && (
-              <img src="/popcorn.png" alt="On Cinema" style={{ height: "40px" }} />
+              <img
+                src="/popcorn.png"
+                alt="On Cinema"
+                style={{ height: "40px" }}
+              />
             )}
             {media.show?.toLowerCase() === "decker" && (
-              <img src="/decker_logo.jpg" alt="Decker" style={{ height: "40px" }} />
+              <img
+                src="/decker_logo.jpg"
+                alt="Decker"
+                style={{ height: "40px" }}
+              />
             )}
           </Box>
         )}
@@ -75,6 +83,21 @@ const MediaModal: React.FC<MediaModalProps> = ({
             />
           </Box>
         )}
+        {media.show && (
+          <Typography variant="subtitle1">{formatLabel(media.show)}</Typography>
+        )}
+        {media.collection && (
+          <Typography variant="subtitle1">
+            {formatLabel(media.collection)}
+          </Typography>
+        )}
+        <Typography variant="body2" gutterBottom>
+          {new Date(media.date_published).toLocaleDateString(undefined, {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          })}
+        </Typography>
         <Box
           sx={{
             display: "flex",
@@ -110,21 +133,6 @@ const MediaModal: React.FC<MediaModalProps> = ({
             <ArrowForwardIosIcon />
           </button>
         </Box>
-        <Typography variant="body2" gutterBottom>
-          {new Date(media.date_published).toLocaleDateString(undefined, {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-          })}
-        </Typography>
-        {media.show && (
-          <Typography variant="subtitle1">{formatLabel(media.show)}</Typography>
-        )}
-        {media.collection && (
-          <Typography variant="subtitle1">
-            {formatLabel(media.collection)}
-          </Typography>
-        )}
       </Box>
     </Modal>
   );
