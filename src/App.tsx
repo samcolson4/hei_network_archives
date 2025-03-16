@@ -4,8 +4,8 @@ import CustomTimeline from "./Timeline";
 function App() {
   return (
     <>
-      <div style={{ position: "sticky", top: 0, zIndex: 1000, backgroundColor: "#f5f0f0", borderBottom: "1px solid #ccc" }}>
-        <h1>5 Bags, 2 Sodas</h1>
+      <div style={{ position: "sticky", top: 0, zIndex: 1000, backgroundColor: "#f5f0f0", borderBottom: "1px solid #ccc", padding: "1rem", textAlign: "left" }}>
+        <h1 style={{ margin: 0 }}>5 Bags, 2 Sodas</h1>
       </div>
       <CustomTimeline />
     </>

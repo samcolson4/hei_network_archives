@@ -8,13 +8,15 @@ import TimelineContent, {
 } from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
 import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
-import { Typography } from "@mui/material";
+import { Typography, ToggleButton } from "@mui/material";
+import SwapVertIcon from '@mui/icons-material/SwapVert';
 import { Colors } from "./styles/colors";
 import allMedia from "./data/all_media.json";
 
 const CustomTimeline = () => {
   const [activeYear, setActiveYear] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc");
   let currentYear: string | null = null;
 
   useEffect(() => {
@@ -23,15 +25,18 @@ const CustomTimeline = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const media_items = [...allMedia]
-    .sort(
-      (a, b) => new Date(b.date_published).getTime() - new Date(a.date_published).getTime()
-    );
+  const sortedMediaItems = [...allMedia].sort((a, b) => {
+    const aTime = new Date(a.date_published).getTime();
+    const bTime = new Date(b.date_published).getTime();
+    return sortOrder === "desc" ? bTime - aTime : aTime - bTime;
+  });
 
   const allYears = Array.from(
-    new Set(media_items.map((m) => new Date(m.date_published).getFullYear().toString()))
+    new Set(sortedMediaItems.map((m) => new Date(m.date_published).getFullYear().toString()))
   );
-  allYears.sort((a, b) => Number(b) - Number(a));
+  allYears.sort((a, b) =>
+    sortOrder === "desc" ? Number(b) - Number(a) : Number(a) - Number(b)
+  );
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -57,7 +62,7 @@ const CustomTimeline = () => {
     yearHeaders.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
-  }, [media_items]);
+  }, [sortedMediaItems]);
 
   const getDotColor = (show: string | null, collection: string): string => {
     switch (collection) {
@@ -126,6 +131,16 @@ const CustomTimeline = () => {
           ))}
         </div>
         <div style={{ flex: 1, padding: "1rem", boxSizing: "border-box", minHeight: "80vh" }}>
+          <div style={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}>
+            <ToggleButton
+              value="sortToggle"
+              selected={sortOrder === "desc"}
+              onChange={() => setSortOrder((prev) => (prev === "desc" ? "asc" : "desc"))}
+              style={{ padding: "0.25rem 1rem" }}
+            >
+              <SwapVertIcon />
+            </ToggleButton>
+          </div>
           <Timeline
             className="timeline"
             sx={{
@@ -134,7 +149,7 @@ const CustomTimeline = () => {
               },
             }}
           >
-            {media_items.map((media, idx) => {
+            {sortedMediaItems.map((media, idx) => {
               const mediaYear = new Date(media.date_published).getFullYear().toString();
               const showYearHeader = mediaYear !== currentYear;
               if (showYearHeader) currentYear = mediaYear;
@@ -172,7 +187,7 @@ const CustomTimeline = () => {
                           backgroundColor: getDotColor(media.show, media.collection),
                         }}
                       />
-                      {idx < media_items.length - 1 && !(showYearHeader && idx === media_items.length - 1) && <TimelineConnector />}
+                      {idx < sortedMediaItems.length - 1 && !(showYearHeader && idx === sortedMediaItems.length - 1) && <TimelineConnector />}
                     </TimelineSeparator>
                     <TimelineContent>
                       {/* title */}
