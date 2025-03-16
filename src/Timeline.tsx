@@ -8,15 +8,18 @@ import TimelineContent, {
 } from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
 import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
-import { Typography, ToggleButton } from "@mui/material";
+import { Typography, ToggleButton, Box } from "@mui/material";
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import { Colors } from "./styles/colors";
 import allMedia from "./data/all_media.json";
+import MediaModal from "./MediaModal";
 
 const CustomTimeline = () => {
   const [activeYear, setActiveYear] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc");
+  const [selectedMedia, setSelectedMedia] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
   let currentYear: string | null = null;
 
   useEffect(() => {
@@ -108,6 +111,18 @@ const CustomTimeline = () => {
             display: isMobile ? "none" : "block",
           }}
         >
+          <ToggleButton
+            value="sortToggle"
+            selected={sortOrder === "desc"}
+            onChange={() => setSortOrder((prev) => (prev === "desc" ? "asc" : "desc"))}
+            style={{
+              padding: "0.25rem",
+              marginBottom: "0.75rem",
+              width: "100%",
+            }}
+          >
+            <SwapVertIcon />
+          </ToggleButton>
           {allYears.map((year) => (
             <button
               key={year}
@@ -131,16 +146,6 @@ const CustomTimeline = () => {
           ))}
         </div>
         <div style={{ flex: 1, padding: "0.25rem 0.25rem 0.25rem 0", boxSizing: "border-box", minHeight: "80vh" }}>
-          <div style={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}>
-            <ToggleButton
-              value="sortToggle"
-              selected={sortOrder === "desc"}
-              onChange={() => setSortOrder((prev) => (prev === "desc" ? "asc" : "desc"))}
-              style={{ padding: "0.25rem 1rem" }}
-            >
-              <SwapVertIcon />
-            </ToggleButton>
-          </div>
           <Timeline
             className="timeline"
             sx={{
@@ -190,33 +195,48 @@ const CustomTimeline = () => {
                       {idx < sortedMediaItems.length - 1 && !(showYearHeader && idx === sortedMediaItems.length - 1) && <TimelineConnector />}
                     </TimelineSeparator>
                     <TimelineContent>
-                      {/* title */}
-                      <Typography variant="h6">
-                        {media.url ? (
-                          <a
-                            href={media.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{ textDecoration: "none", color: "#1e88e5" }}
-                          >
-                            {media.title}
-                          </a>
-                        ) : (
-                          media.title
+                      <Box
+                        onClick={() => {
+                          setSelectedMedia(media);
+                          setModalOpen(true);
+                        }}
+                        sx={{
+                          cursor: "pointer",
+                          border: "2px solid #ccc",
+                          borderRadius: "8px",
+                          padding: "0.5rem",
+                          transition: "box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out",
+                          "&:hover": {
+                            boxShadow: "0 0 10px rgba(30, 136, 229, 0.6)",
+                            borderColor: "#1e88e5",
+                          },
+                        }}
+                      >
+                        <Typography variant="h6">
+                          {media.url ? (
+                            <a
+                              href={media.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{ textDecoration: "none", color: "#1e88e5" }}
+                            >
+                              {media.title}
+                            </a>
+                          ) : (
+                            media.title
+                          )}
+                        </Typography>
+                        {media.show && (
+                          <Typography variant="subtitle1" sx={{ mb: 0.0 }}>
+                            {formatLabel(media.show)}
+                          </Typography>
                         )}
-                      </Typography>
-                      {/* show */}
-                      {media.show && (
-                        <Typography variant="subtitle1" sx={{ mb: 0.0 }}>
-                          {formatLabel(media.show)}
-                        </Typography>
-                      )}
-                      {/* collection */}
-                      {media.collection && (
-                        <Typography variant="subtitle1" sx={{ mb: 0.0 }}>
-                          {formatLabel(media.collection)}
-                        </Typography>
-                      )}
+                        {media.collection && (
+                          <Typography variant="subtitle1" sx={{ mb: 0.0 }}>
+                            {formatLabel(media.collection)}
+                          </Typography>
+                        )}
+                      </Box>
                     </TimelineContent>
                   </TimelineItem>
                 </React.Fragment>
@@ -225,6 +245,11 @@ const CustomTimeline = () => {
           </Timeline>
         </div>
       </div>
+      <MediaModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        media={selectedMedia}
+      />
     </>
   );
 };
