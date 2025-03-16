@@ -96,13 +96,13 @@ const CustomTimeline = () => {
 
   return (
     <>
-      <div style={{ display: "flex", width: "100%", minHeight: "80vh", flexWrap: "wrap" }}>
+      <div style={{ display: "flex", width: "100%", minHeight: "80vh", flexWrap: "nowrap", alignItems: "flex-start", gap: "0.5rem" }}>
         <div
           style={{
-            width: "100px",
-            padding: "1rem",
+            width: "60px",
+            padding: "0.25rem",
             position: "sticky",
-            top: "80px",
+            top: "90px",
             alignSelf: "flex-start",
             height: "fit-content",
             display: isMobile ? "none" : "block",
@@ -130,7 +130,7 @@ const CustomTimeline = () => {
             </button>
           ))}
         </div>
-        <div style={{ flex: 1, padding: "1rem", boxSizing: "border-box", minHeight: "80vh" }}>
+        <div style={{ flex: 1, padding: "0.25rem 0.25rem 0.25rem 0", boxSizing: "border-box", minHeight: "80vh" }}>
           <div style={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}>
             <ToggleButton
               value="sortToggle"
