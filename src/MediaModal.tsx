@@ -50,8 +50,24 @@ const MediaModal: React.FC<MediaModalProps> = ({
   return (
     <Modal open={open} onClose={onClose}>
       <Box sx={style}>
+        {media.show && (
+          <Box
+            sx={{
+              position: "absolute",
+              top: 8,
+              right: 8,
+            }}
+          >
+            {media.show === "on_cinema" && (
+              <img src="/popcorn.png" alt="On Cinema" style={{ height: "40px" }} />
+            )}
+            {media.show?.toLowerCase() === "decker" && (
+              <img src="/decker_logo.jpg" alt="Decker" style={{ height: "40px" }} />
+            )}
+          </Box>
+        )}
         {media.poster_url && (
-          <Box sx={{ mb: 2 }}>
+          <Box sx={{ mb: 2, display: "flex", justifyContent: "center" }}>
             <img
               src={media.poster_url}
               alt={media.title}
