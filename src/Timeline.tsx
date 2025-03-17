@@ -14,6 +14,12 @@ import SwapVertIcon from "@mui/icons-material/SwapVert";
 import { Colors } from "./styles/colors";
 import allMedia from "./data/all_media.json";
 import MediaModal from "./MediaModal";
+import PopcornIcon from "../public/popcorn.png";
+import SodaIcon from "../public/soda.png";
+import DeckerIcon from "../public/decker_phone.png";
+import HeiLogo from "../public/hei_logo.png";
+import OscarIcon from "../public/oscar.png";
+import PodcastIcon from "../public/podcast_logo.png";
 
 const CustomTimeline = () => {
   const [activeYear, setActiveYear] = useState<string | null>(null);
@@ -55,12 +61,12 @@ const CustomTimeline = () => {
   const allYears = Array.from(
     new Set(
       sortedMediaItems.map((m) =>
-        new Date(m.date_published).getFullYear().toString()
-      )
-    )
+        new Date(m.date_published).getFullYear().toString(),
+      ),
+    ),
   );
   allYears.sort((a, b) =>
-    sortOrder === "desc" ? Number(b) - Number(a) : Number(a) - Number(b)
+    sortOrder === "desc" ? Number(b) - Number(a) : Number(a) - Number(b),
   );
 
   useEffect(() => {
@@ -80,7 +86,7 @@ const CustomTimeline = () => {
       {
         rootMargin: "0px 0px -70% 0px",
         threshold: 0,
-      }
+      },
     );
 
     const yearHeaders = document.querySelectorAll("[data-year]");
@@ -93,8 +99,12 @@ const CustomTimeline = () => {
     franchise: string | null,
     mediaType: string,
     seasonName: string | null,
-  isBonus?: boolean
+    isBonus?: boolean,
   ): string => {
+    if (mediaType === "article") {
+      return Colors.blue;
+    }
+
     if (isBonus) {
       return Colors.green;
     }
@@ -109,17 +119,13 @@ const CustomTimeline = () => {
           return Colors.red;
         case "heilot":
           return Colors.purple;
-        case "Decker":
+        case "decker":
           return Colors.blue;
         case "on_cinema_podcast":
           return Colors.purple;
         default:
           break;
       }
-    }
-
-    if (mediaType === "article") {
-      return Colors.green;
     }
 
     return Colors.default;
@@ -130,6 +136,148 @@ const CustomTimeline = () => {
       .split("_")
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(" ");
+
+  const renderTimelineDot = (
+    media: (typeof allMedia)[number],
+    getDotColor: (
+      franchise: string | null,
+      mediaType: string,
+      seasonName: string | null,
+      isBonus?: boolean,
+    ) => string,
+  ) => {
+    const isOscar = media.season_name?.toLowerCase().includes("oscar");
+
+    if (media.is_bonus) {
+      return (
+        <TimelineDot
+          sx={{
+            backgroundColor: "transparent",
+            padding: 0,
+            width: 32,
+            height: 32,
+          }}
+        >
+          <img
+            src={SodaIcon}
+            alt="Soda"
+            style={{ width: "100%", height: "100%", objectFit: "contain" }}
+          />
+        </TimelineDot>
+      );
+    }
+
+    if (media.franchise === "on_cinema" && isOscar) {
+      return (
+        <TimelineDot
+          sx={{
+            backgroundColor: "transparent",
+            padding: 0,
+            width: 32,
+            height: 32,
+          }}
+        >
+          <img
+            src={OscarIcon}
+            alt="oscar"
+            style={{ width: "100%", height: "100%", objectFit: "contain" }}
+          />
+        </TimelineDot>
+      );
+    }
+
+    if (media.media_type === "podcast") {
+      return (
+        <TimelineDot
+          sx={{
+            backgroundColor: "transparent",
+            padding: 0,
+            width: 32,
+            height: 32,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <img
+            src={PodcastIcon}
+            alt="Podcast icon"
+            style={{ width: "90%", height: "90%", objectFit: "contain" }}
+          />
+        </TimelineDot>
+      );
+    }
+
+    if (media.franchise === "on_cinema") {
+      return (
+        <TimelineDot
+          sx={{
+            backgroundColor: "transparent",
+            padding: 0,
+            width: 32,
+            height: 32,
+          }}
+        >
+          <img
+            src={PopcornIcon}
+            alt="popcorn"
+            style={{ width: "100%", height: "100%", objectFit: "contain" }}
+          />
+        </TimelineDot>
+      );
+    }
+
+    if (media.franchise === "decker") {
+      return (
+        <TimelineDot
+          sx={{
+            backgroundColor: "transparent",
+            padding: 0,
+            width: 32,
+            height: 32,
+          }}
+        >
+          <img
+            src={DeckerIcon}
+            alt="Decker logo"
+            style={{ width: "100%", height: "100%", objectFit: "contain" }}
+          />
+        </TimelineDot>
+      );
+    }
+
+    if (media.media_type === "article") {
+      return (
+        <TimelineDot
+          sx={{
+            backgroundColor: "transparent",
+            padding: 0,
+            width: 32,
+            height: 32,
+          }}
+        >
+          <img
+            src={HeiLogo}
+            alt="Decker logo"
+            style={{ width: "100%", height: "100%", objectFit: "contain" }}
+          />
+        </TimelineDot>
+      );
+    }
+
+    return (
+      <TimelineDot
+        sx={{
+          backgroundColor: getDotColor(
+            media.franchise,
+            media.media_type,
+            media.season_name,
+            Boolean(media.is_bonus),
+          ),
+        }}
+      />
+    );
+  };
 
   return (
     <>
@@ -148,7 +296,7 @@ const CustomTimeline = () => {
             width: "60px",
             padding: "0.25rem",
             position: "sticky",
-            top: "115px",
+            top: "165px",
             alignSelf: "flex-start",
             height: "fit-content",
             display: isMobile ? "none" : "block",
@@ -242,16 +390,12 @@ const CustomTimeline = () => {
                             year: "numeric",
                             month: "short",
                             day: "numeric",
-                          }
+                          },
                         )}
                       </Typography>
                     </TimelineOppositeContent>
                     <TimelineSeparator>
-                      <TimelineDot
-                        sx={{
-                          backgroundColor: getDotColor(media.franchise, media.media_type, media.season_name, Boolean(media.is_bonus)),
-                        }}
-                      />
+                      {renderTimelineDot(media, getDotColor)}
                       {idx < sortedMediaItems.length - 1 &&
                         !(
                           showYearHeader && idx === sortedMediaItems.length - 1
@@ -320,7 +464,7 @@ const CustomTimeline = () => {
         onPrev={() => {
           if (!selectedMedia) return;
           const currentIndex = sortedMediaItems.findIndex(
-            (m) => m.title === selectedMedia.title
+            (m) => m.title === selectedMedia.title,
           );
           const prevIndex = currentIndex - 1;
           if (prevIndex >= 0) {
@@ -332,7 +476,7 @@ const CustomTimeline = () => {
         onNext={() => {
           if (!selectedMedia) return;
           const currentIndex = sortedMediaItems.findIndex(
-            (m) => m.title === selectedMedia.title
+            (m) => m.title === selectedMedia.title,
           );
           const nextIndex = currentIndex + 1;
           if (nextIndex < sortedMediaItems.length) {
@@ -343,12 +487,17 @@ const CustomTimeline = () => {
         }}
         isFirst={
           selectedMedia
-            ? sortedMediaItems.findIndex((m) => m.title === selectedMedia.title) === 0
+            ? sortedMediaItems.findIndex(
+                (m) => m.title === selectedMedia.title,
+              ) === 0
             : false
         }
         isLast={
           selectedMedia
-            ? sortedMediaItems.findIndex((m) => m.title === selectedMedia.title) === sortedMediaItems.length - 1
+            ? sortedMediaItems.findIndex(
+                (m) => m.title === selectedMedia.title,
+              ) ===
+              sortedMediaItems.length - 1
             : false
         }
       />
