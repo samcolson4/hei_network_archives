@@ -9,7 +9,7 @@ function App() {
           position: "sticky",
           top: 0,
           zIndex: 1000,
-          backgroundColor: "#f5f0f0",
+          // backgroundColor: "#f5f0f0", // Left out until we re-introduce dark mode
           borderBottom: "1px solid #ccc",
           padding: "1rem",
           textAlign: "left",
