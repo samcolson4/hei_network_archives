@@ -106,7 +106,7 @@ const CustomTimeline = () => {
           minHeight: "80vh",
           flexWrap: "nowrap",
           alignItems: "flex-start",
-          gap: "clamp(1rem, 5vw, 5rem)",
+          gap: "clamp(1rem, 5vw, 6rem)",
         }}
       >
         <div
@@ -167,9 +167,10 @@ const CustomTimeline = () => {
         >
           <Timeline
             className="timeline"
-            sx={{
+          sx={{
               [`& .${timelineContentClasses.root}`]: {
                 flex: 1,
+                marginBottom: "2rem",
               },
             }}
           >
@@ -185,15 +186,20 @@ const CustomTimeline = () => {
                   {showYearHeader && (
                     <TimelineItem>
                       <TimelineOppositeContent
-                        sx={{ minWidth: 0, flex: 0, pr: 1, textAlign: "left", paddingTop: "1rem" }}
+                        color="textSecondary"
+                        sx={{
+                          flex: 0.2,
+                          minWidth: "80px",
+                          pr: 2,
+                          display: "flex",
+                          alignItems: "center",
+                          height: "100%",
+                        }}
                       >
                         <Typography
                           id={`year-${mediaYear}`}
                           data-year={mediaYear}
                           variant="h3"
-                          sx={{
-                            fontSize: { xs: "1.5rem", sm: "1.75rem", md: "2rem" },
-                          }}
                         >
                           {mediaYear}
                         </Typography>
@@ -203,8 +209,8 @@ const CustomTimeline = () => {
                     </TimelineItem>
                   )}
                   <TimelineItem>
-                    <TimelineOppositeContent color="textSecondary" sx={{ flex: 0.20, minWidth: "80px", pr: 2 }}>
-                      <Typography variant="body2" sx={{ fontSize: { xs: "0.8rem", sm: "0.9rem", md: "0.95rem" } }}>
+                    <TimelineOppositeContent color="textSecondary" sx={{ flex: 0.20, minWidth: "80px", pr: 2, display: "flex", alignItems: "center", height: "100%" }}>
+                      <Typography variant="body2">
                         {new Date(media.date_published).toLocaleDateString(
                           undefined,
                           {
@@ -226,12 +232,15 @@ const CustomTimeline = () => {
                       >
                         {renderTimelineImage(media)}
                       </TimelineDot>
-                      {idx < sortedMediaItems.length - 1 &&
-                        !(
-                          showYearHeader && idx === sortedMediaItems.length - 1
-                        ) && <TimelineConnector />}
+                      {idx < sortedMediaItems.length - 1 && <TimelineConnector />}
                     </TimelineSeparator>
-                    <TimelineContent>
+                    <TimelineContent
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        height: "100%",
+                      }}
+                    >
                       <Box
                         onClick={() => {
                           setSelectedMedia(media);
@@ -254,28 +263,18 @@ const CustomTimeline = () => {
                       >
                         <Typography
                           variant="h6"
-                          sx={{
-                            mb: 0,
-                            fontWeight: "bold",
-                            fontSize: { xs: "1rem", sm: "1.125rem", md: "1.25rem" },
-                          }}
+                          sx={{ mb: 0.0, fontWeight: "bold" }}
                         >
                           {media.title}
                         </Typography>
                         {media.franchise && media.season_name && (
-                        <Typography variant="subtitle1" sx={{
-                            mb: 0,
-                            fontSize: { xs: "0.85rem", sm: "0.95rem", md: "1rem" },
-                          }}>
+                          <Typography variant="subtitle1" sx={{ mb: 0.0 }}>
                             {formatLabel(media.franchise)}:{" "}
                             {formatLabel(media.season_name)}
                           </Typography>
                         )}
                         {media.media_type === "article" && (
-                        <Typography variant="subtitle1" sx={{
-                            mb: 0,
-                            fontSize: { xs: "0.85rem", sm: "0.95rem", md: "1rem" },
-                          }}>
+                          <Typography variant="subtitle1" sx={{ mb: 0.0 }}>
                             HEI Network News
                           </Typography>
                         )}
