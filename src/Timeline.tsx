@@ -101,11 +101,12 @@ const CustomTimeline = () => {
       <div
         style={{
           display: "flex",
+          flexDirection: isMobile ? "column" : "row",
           width: "100%",
           minHeight: "80vh",
           flexWrap: "nowrap",
           alignItems: "flex-start",
-          gap: "5rem",
+          gap: "clamp(1rem, 5vw, 5rem)",
         }}
       >
         <div
@@ -157,9 +158,9 @@ const CustomTimeline = () => {
           ))}
         </div>
         <div
-        style={{
+          style={{
             flex: 1,
-            padding: "1rem",
+            padding: isMobile ? "1rem 0.5rem" : "2rem",
             boxSizing: "border-box",
             minHeight: "80vh",
           }}
@@ -190,6 +191,9 @@ const CustomTimeline = () => {
                           id={`year-${mediaYear}`}
                           data-year={mediaYear}
                           variant="h3"
+                          sx={{
+                            fontSize: { xs: "1.5rem", sm: "1.75rem", md: "2rem" },
+                          }}
                         >
                           {mediaYear}
                         </Typography>
@@ -200,7 +204,7 @@ const CustomTimeline = () => {
                   )}
                   <TimelineItem>
                     <TimelineOppositeContent color="textSecondary" sx={{ flex: 0.20, minWidth: "80px", pr: 2 }}>
-                      <Typography variant="body2">
+                      <Typography variant="body2" sx={{ fontSize: { xs: "0.8rem", sm: "0.9rem", md: "0.95rem" } }}>
                         {new Date(media.date_published).toLocaleDateString(
                           undefined,
                           {
@@ -228,7 +232,7 @@ const CustomTimeline = () => {
                         ) && <TimelineConnector />}
                     </TimelineSeparator>
                     <TimelineContent>
-                    <Box
+                      <Box
                         onClick={() => {
                           setSelectedMedia(media);
                           setModalOpen(true);
@@ -239,8 +243,7 @@ const CustomTimeline = () => {
                           border: "2px solid #ccc",
                           borderRadius: "8px",
                           padding: "0.5rem",
-                          width: "25rem",
-                          // minHeight: "120px",
+                          width: isMobile ? "100%" : "25rem",
                           transition:
                             "box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out",
                           "&:hover": {
@@ -248,21 +251,31 @@ const CustomTimeline = () => {
                             borderColor: "#1e88e5",
                           },
                         }}
-                    >
+                      >
                         <Typography
                           variant="h6"
-                          sx={{ mb: 0.0, fontWeight: "bold" }}
+                          sx={{
+                            mb: 0,
+                            fontWeight: "bold",
+                            fontSize: { xs: "1rem", sm: "1.125rem", md: "1.25rem" },
+                          }}
                         >
                           {media.title}
                         </Typography>
                         {media.franchise && media.season_name && (
-                          <Typography variant="subtitle1" sx={{ mb: 0.0 }}>
+                        <Typography variant="subtitle1" sx={{
+                            mb: 0,
+                            fontSize: { xs: "0.85rem", sm: "0.95rem", md: "1rem" },
+                          }}>
                             {formatLabel(media.franchise)}:{" "}
                             {formatLabel(media.season_name)}
                           </Typography>
                         )}
                         {media.media_type === "article" && (
-                          <Typography variant="subtitle1" sx={{ mb: 0.0 }}>
+                        <Typography variant="subtitle1" sx={{
+                            mb: 0,
+                            fontSize: { xs: "0.85rem", sm: "0.95rem", md: "1rem" },
+                          }}>
                             HEI Network News
                           </Typography>
                         )}
