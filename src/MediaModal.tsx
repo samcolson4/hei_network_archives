@@ -3,6 +3,7 @@ import { Modal, Box, Typography } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { renderTimelineImage } from "./timelineDotUtils";
+import type { MediaItem } from "./types";
 
 const style = {
   position: "absolute" as const,
@@ -22,16 +23,7 @@ const style = {
 interface MediaModalProps {
   open: boolean;
   onClose: () => void;
-  media: {
-    title: string;
-    date_published: string;
-    url?: string;
-    show: string | null;
-    poster_url?: string | null;
-    franchise: string | null;
-    media_type: string;
-    season_name: string | null;
-  } | null;
+  media: MediaItem | null;
   onPrev: () => void;
   onNext: () => void;
   isFirst?: boolean;

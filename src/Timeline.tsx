@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import type { MediaItem } from "./types";
 import { useSearchParams } from "react-router-dom";
 import Timeline from "@mui/lab/Timeline";
 import TimelineItem from "@mui/lab/TimelineItem";
@@ -278,14 +279,7 @@ const CustomTimeline = () => {
           setModalOpen(false);
           setSearchParams({});
         }}
-        media={
-          selectedMedia
-            ? {
-                ...selectedMedia,
-                poster_url: selectedMedia.poster_url ?? undefined,
-              }
-            : null
-        }
+        media={selectedMedia as MediaItem | null}
         onPrev={() => {
           if (!selectedMedia) return;
           const currentIndex = sortedMediaItems.findIndex(

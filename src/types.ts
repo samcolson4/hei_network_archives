@@ -7,4 +7,6 @@ export type MediaItem = {
   url: string;
   poster_url: string;
   show: string;
+  franchise: string | null;
+  season_name: string | null;
 }
