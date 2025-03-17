@@ -12,7 +12,8 @@ import { Typography, ToggleButton, Box } from "@mui/material";
 import SwapVertIcon from "@mui/icons-material/SwapVert";
 import allMedia from "./data/all_media.json";
 import MediaModal from "./MediaModal";
-import { getDotColor, renderTimelineDot } from "./timelineDotUtils";
+import { renderTimelineImage } from "./timelineDotUtils";
+import { TimelineDot } from "@mui/lab";
 
 const CustomTimeline = () => {
   const [activeYear, setActiveYear] = useState<string | null>(null);
@@ -210,7 +211,16 @@ const CustomTimeline = () => {
                       </Typography>
                     </TimelineOppositeContent>
                     <TimelineSeparator>
-                      {renderTimelineDot(media, getDotColor)}
+                      <TimelineDot
+                        sx={{
+                          backgroundColor: "transparent",
+                          padding: 0,
+                          width: 32,
+                          height: 32,
+                        }}
+                      >
+                        {renderTimelineImage(media)}
+                      </TimelineDot>
                       {idx < sortedMediaItems.length - 1 &&
                         !(
                           showYearHeader && idx === sortedMediaItems.length - 1

@@ -1,5 +1,3 @@
-import React from "react";
-import TimelineDot from "@mui/lab/TimelineDot";
 import { Colors } from "./styles/colors";
 import PopcornIcon from "../public/popcorn.png";
 import SodaIcon from "../public/soda.png";
@@ -13,6 +11,11 @@ interface MediaItem {
   media_type: string;
   season_name: string | null;
   is_bonus?: boolean;
+  title?: string;
+  date_published?: string;
+  url?: string;
+  collection?: string;
+  show?: string | null;
 }
 
 export const formatLabel = (str: string) =>
@@ -45,85 +48,72 @@ export const getDotColor = (
   }
 };
 
-export const renderTimelineDot = (
+export const renderTimelineImage = (
   media: MediaItem,
-  getDotColor: (
-    franchise: string | null,
-    mediaType: string,
-    seasonName: string | null,
-    isBonus?: boolean,
-  ) => string,
+
 ) => {
   const isOscar = media.season_name?.toLowerCase().includes("oscar");
 
   if (media.is_bonus) {
     return (
-      <TimelineDot sx={{ backgroundColor: "transparent", padding: 0, width: 32, height: 32 }}>
-        <img src={SodaIcon} alt="Soda" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
-      </TimelineDot>
+        <img
+          src={SodaIcon}
+          alt="Soda"
+          style={{ width: "100%", height: "100%", objectFit: "contain" }}
+        />
     );
   }
 
   if (media.franchise === "on_cinema" && isOscar) {
     return (
-      <TimelineDot sx={{ backgroundColor: "transparent", padding: 0, width: 32, height: 32 }}>
-        <img src={OscarIcon} alt="Oscar" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
-      </TimelineDot>
+        <img
+          src={OscarIcon}
+          alt="Oscar"
+          style={{ width: "100%", height: "100%", objectFit: "contain" }}
+        />
     );
   }
 
-  if (media.media_type === "podcast") {
+  if (
+    media.media_type === "podcast" ||
+    media.franchise === "on_cinema_podcast"
+  ) {
     return (
-      <TimelineDot
-        sx={{
-          backgroundColor: "transparent",
-          padding: 0,
-          width: 32,
-          height: 32,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <img src={PodcastIcon} alt="Podcast icon" style={{ width: "90%", height: "90%", objectFit: "contain" }} />
-      </TimelineDot>
+        <img
+          src={PodcastIcon}
+          alt="Podcast icon"
+          style={{ width: "90%", height: "90%", objectFit: "contain" }}
+        />
     );
   }
 
   if (media.franchise === "on_cinema") {
     return (
-      <TimelineDot sx={{ backgroundColor: "transparent", padding: 0, width: 32, height: 32 }}>
-        <img src={PopcornIcon} alt="Popcorn" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
-      </TimelineDot>
+        <img
+          src={PopcornIcon}
+          alt="Popcorn"
+          style={{ width: "100%", height: "100%", objectFit: "contain" }}
+        />
     );
   }
 
   if (media.franchise === "decker") {
     return (
-      <TimelineDot sx={{ backgroundColor: "transparent", padding: 0, width: 32, height: 32 }}>
-        <img src={DeckerIcon} alt="Decker" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
-      </TimelineDot>
+        <img
+          src={DeckerIcon}
+          alt="Decker"
+          style={{ width: "100%", height: "100%", objectFit: "contain" }}
+        />
     );
   }
 
   if (media.media_type === "article") {
     return (
-      <TimelineDot sx={{ backgroundColor: "transparent", padding: 0, width: 32, height: 32 }}>
-        <img src={HeiLogo} alt="Hei logo" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
-      </TimelineDot>
+        <img
+          src={HeiLogo}
+          alt="Hei logo"
+          style={{ width: "100%", height: "100%", objectFit: "contain" }}
+        />
     );
   }
-
-  return (
-    <TimelineDot
-      sx={{
-        backgroundColor: getDotColor(
-          media.franchise,
-          media.media_type,
-          media.season_name,
-          Boolean(media.is_bonus),
-        ),
-      }}
-    />
-  );
 };

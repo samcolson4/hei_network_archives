@@ -2,6 +2,7 @@ import React from "react";
 import { Modal, Box, Typography } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { renderTimelineImage } from "./timelineDotUtils";
 
 const style = {
   position: "absolute" as const,
@@ -25,9 +26,11 @@ interface MediaModalProps {
     title: string;
     date_published: string;
     url?: string;
-    show?: string | null;
-    collection?: string;
-    poster_url?: string;
+    show: string | null;
+    poster_url?: string | null;
+    franchise: string | null;
+    media_type: string;
+    season_name: string | null;
   } | null;
   onPrev: () => void;
   onNext: () => void;
@@ -71,30 +74,32 @@ const MediaModal: React.FC<MediaModalProps> = ({
   return (
     <Modal open={open} onClose={onClose}>
       <Box sx={style}>
-        {media.show && (
-          <Box
-            sx={{
-              position: "absolute",
-              top: 8,
-              right: 8,
-            }}
-          >
-            {media.show === "on_cinema" && (
-              <img
-                src="/popcorn.png"
-                alt="On Cinema"
-                style={{ height: "40px" }}
-              />
-            )}
-            {media.show?.toLowerCase() === "decker" && (
-              <img
-                src="/decker_logo.jpg"
-                alt="Decker"
-                style={{ height: "40px" }}
-              />
-            )}
-          </Box>
-        )}
+        <Box
+          sx={{
+            position: "absolute",
+            top: 16,
+            right: 16,
+            zIndex: 2,
+            width: 32,
+            height: 32,
+          }}
+        >
+          <div
+        style={{
+          width: 40,
+          height: 40,
+          borderRadius: "50%",
+          overflow: "hidden",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "#fff",
+          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+        }}
+      >
+          {renderTimelineImage(media)}
+          </div>
+        </Box>
         {media.poster_url && (
           <Box sx={{ mb: 2, display: "flex", justifyContent: "center" }}>
             <img
@@ -121,9 +126,9 @@ const MediaModal: React.FC<MediaModalProps> = ({
         {media.show && (
           <Typography variant="subtitle1">{formatLabel(media.show)}</Typography>
         )}
-        {media.collection && (
+        {media.franchise && (
           <Typography variant="subtitle1">
-            {formatLabel(media.collection)}
+            {formatLabel(media.franchise)}
           </Typography>
         )}
         <Typography variant="body2" gutterBottom>
