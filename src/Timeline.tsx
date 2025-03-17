@@ -7,19 +7,12 @@ import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent, {
   timelineContentClasses,
 } from "@mui/lab/TimelineContent";
-import TimelineDot from "@mui/lab/TimelineDot";
 import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
 import { Typography, ToggleButton, Box } from "@mui/material";
 import SwapVertIcon from "@mui/icons-material/SwapVert";
-import { Colors } from "./styles/colors";
 import allMedia from "./data/all_media.json";
 import MediaModal from "./MediaModal";
-import PopcornIcon from "../public/popcorn.png";
-import SodaIcon from "../public/soda.png";
-import DeckerIcon from "../public/decker_phone.png";
-import HeiLogo from "../public/hei_logo.png";
-import OscarIcon from "../public/oscar.png";
-import PodcastIcon from "../public/podcast_logo.png";
+import { getDotColor, renderTimelineDot } from "./timelineDotUtils";
 
 const CustomTimeline = () => {
   const [activeYear, setActiveYear] = useState<string | null>(null);
@@ -95,189 +88,11 @@ const CustomTimeline = () => {
     return () => observer.disconnect();
   }, [sortedMediaItems]);
 
-  const getDotColor = (
-    franchise: string | null,
-    mediaType: string,
-    seasonName: string | null,
-    isBonus?: boolean,
-  ): string => {
-    if (mediaType === "article") {
-      return Colors.blue;
-    }
-
-    if (isBonus) {
-      return Colors.green;
-    }
-
-    if (seasonName && seasonName.toLowerCase().includes("oscar special")) {
-      return Colors.yellow;
-    }
-
-    if (franchise) {
-      switch (franchise) {
-        case "on_cinema":
-          return Colors.red;
-        case "heilot":
-          return Colors.purple;
-        case "decker":
-          return Colors.blue;
-        case "on_cinema_podcast":
-          return Colors.purple;
-        default:
-          break;
-      }
-    }
-
-    return Colors.default;
-  };
-
   const formatLabel = (str: string) =>
     str
       .split("_")
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(" ");
-
-  const renderTimelineDot = (
-    media: (typeof allMedia)[number],
-    getDotColor: (
-      franchise: string | null,
-      mediaType: string,
-      seasonName: string | null,
-      isBonus?: boolean,
-    ) => string,
-  ) => {
-    const isOscar = media.season_name?.toLowerCase().includes("oscar");
-
-    if (media.is_bonus) {
-      return (
-        <TimelineDot
-          sx={{
-            backgroundColor: "transparent",
-            padding: 0,
-            width: 32,
-            height: 32,
-          }}
-        >
-          <img
-            src={SodaIcon}
-            alt="Soda"
-            style={{ width: "100%", height: "100%", objectFit: "contain" }}
-          />
-        </TimelineDot>
-      );
-    }
-
-    if (media.franchise === "on_cinema" && isOscar) {
-      return (
-        <TimelineDot
-          sx={{
-            backgroundColor: "transparent",
-            padding: 0,
-            width: 32,
-            height: 32,
-          }}
-        >
-          <img
-            src={OscarIcon}
-            alt="oscar"
-            style={{ width: "100%", height: "100%", objectFit: "contain" }}
-          />
-        </TimelineDot>
-      );
-    }
-
-    if (media.media_type === "podcast") {
-      return (
-        <TimelineDot
-          sx={{
-            backgroundColor: "transparent",
-            padding: 0,
-            width: 32,
-            height: 32,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <img
-            src={PodcastIcon}
-            alt="Podcast icon"
-            style={{ width: "90%", height: "90%", objectFit: "contain" }}
-          />
-        </TimelineDot>
-      );
-    }
-
-    if (media.franchise === "on_cinema") {
-      return (
-        <TimelineDot
-          sx={{
-            backgroundColor: "transparent",
-            padding: 0,
-            width: 32,
-            height: 32,
-          }}
-        >
-          <img
-            src={PopcornIcon}
-            alt="popcorn"
-            style={{ width: "100%", height: "100%", objectFit: "contain" }}
-          />
-        </TimelineDot>
-      );
-    }
-
-    if (media.franchise === "decker") {
-      return (
-        <TimelineDot
-          sx={{
-            backgroundColor: "transparent",
-            padding: 0,
-            width: 32,
-            height: 32,
-          }}
-        >
-          <img
-            src={DeckerIcon}
-            alt="Decker logo"
-            style={{ width: "100%", height: "100%", objectFit: "contain" }}
-          />
-        </TimelineDot>
-      );
-    }
-
-    if (media.media_type === "article") {
-      return (
-        <TimelineDot
-          sx={{
-            backgroundColor: "transparent",
-            padding: 0,
-            width: 32,
-            height: 32,
-          }}
-        >
-          <img
-            src={HeiLogo}
-            alt="Decker logo"
-            style={{ width: "100%", height: "100%", objectFit: "contain" }}
-          />
-        </TimelineDot>
-      );
-    }
-
-    return (
-      <TimelineDot
-        sx={{
-          backgroundColor: getDotColor(
-            media.franchise,
-            media.media_type,
-            media.season_name,
-            Boolean(media.is_bonus),
-          ),
-        }}
-      />
-    );
-  };
 
   return (
     <>

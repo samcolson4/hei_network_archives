@@ -5287,7 +5287,7 @@
     "published_by": null,
     "url": "",
     "poster_url": "https://i.ytimg.com/vi/GKY57Dj_-fI/maxresdefault.jpg",
-    "is_bonus": "true",
+    "is_bonus": true,
     "is_meta": "false"
   }
 ]
