@@ -10,6 +10,7 @@ function App() {
           top: 0,
           zIndex: 1000,
           // backgroundColor: "#f5f0f0", // Left out until we re-introduce dark mode
+          backgroundColor: "#ffffff",
           borderBottom: "1px solid #ccc",
           padding: "1rem",
           textAlign: "left",

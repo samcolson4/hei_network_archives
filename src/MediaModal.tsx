@@ -15,6 +15,7 @@ const style = {
   borderRadius: "8px",
   boxShadow: 24,
   p: 4,
+  outline: "none",
 };
 
 interface MediaModalProps {
@@ -30,6 +31,8 @@ interface MediaModalProps {
   } | null;
   onPrev: () => void;
   onNext: () => void;
+  isFirst?: boolean;
+  isLast?: boolean;
 }
 
 const MediaModal: React.FC<MediaModalProps> = ({
@@ -38,7 +41,25 @@ const MediaModal: React.FC<MediaModalProps> = ({
   media,
   onPrev,
   onNext,
+  isFirst,
+  isLast,
 }) => {
+  React.useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (!open) return;
+      if (event.key === "ArrowLeft" && !isFirst) {
+        onPrev();
+      } else if (event.key === "ArrowRight" && !isLast) {
+        onNext();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [open, onPrev, onNext, isFirst, isLast]);
+
   if (!media) return null;
 
   const formatLabel = (str: string) =>
@@ -83,6 +104,20 @@ const MediaModal: React.FC<MediaModalProps> = ({
             />
           </Box>
         )}
+        <Typography variant="h6" sx={{ flex: 1, textAlign: "left" }}>
+            {media.url ? (
+              <a
+                href={media.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ textDecoration: "none", color: "#1e88e5" }}
+              >
+                {media.title}
+              </a>
+            ) : (
+              media.title
+            )}
+          </Typography>
         {media.show && (
           <Typography variant="subtitle1">{formatLabel(media.show)}</Typography>
         )}
@@ -101,37 +136,38 @@ const MediaModal: React.FC<MediaModalProps> = ({
         <Box
           sx={{
             display: "flex",
-            justifyContent: "space-between",
+            justifyContent: "flex-end",
             alignItems: "center",
-            mb: 2,
+            gap: 1,
+            position: "absolute",
+            bottom: 16,
+            right: 16,
           }}
         >
-          <button
-            onClick={onPrev}
-            style={{ cursor: "pointer", border: "none", background: "none" }}
-          >
-            <ArrowBackIosIcon />
-          </button>
-          <Typography variant="h6" sx={{ flex: 1, textAlign: "center" }}>
-            {media.url ? (
-              <a
-                href={media.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ textDecoration: "none", color: "#1e88e5" }}
-              >
-                {media.title}
-              </a>
-            ) : (
-              media.title
-            )}
-          </Typography>
-          <button
-            onClick={onNext}
-            style={{ cursor: "pointer", border: "none", background: "none" }}
-          >
-            <ArrowForwardIosIcon />
-          </button>
+          {!isFirst && (
+            <button
+              onClick={onPrev}
+              style={{
+                cursor: "pointer",
+                border: "none",
+                background: "none",
+              }}
+            >
+              <ArrowBackIosIcon />
+            </button>
+          )}
+          {!isLast && (
+            <button
+              onClick={onNext}
+              style={{
+                cursor: "pointer",
+                border: "none",
+                background: "none",
+              }}
+            >
+              <ArrowForwardIosIcon />
+            </button>
+          )}
         </Box>
       </Box>
     </Modal>

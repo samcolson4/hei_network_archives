@@ -306,23 +306,35 @@ const CustomTimeline = () => {
           const currentIndex = sortedMediaItems.findIndex(
             (m) => m.title === selectedMedia.title
           );
-          const prevIndex =
-            (currentIndex - 1 + sortedMediaItems.length) %
-            sortedMediaItems.length;
-          const prevMedia = sortedMediaItems[prevIndex];
-          setSelectedMedia(prevMedia);
-          setSearchParams({ modal: prevMedia.title });
+          const prevIndex = currentIndex - 1;
+          if (prevIndex >= 0) {
+            const prevMedia = sortedMediaItems[prevIndex];
+            setSelectedMedia(prevMedia);
+            setSearchParams({ modal: prevMedia.title });
+          }
         }}
         onNext={() => {
           if (!selectedMedia) return;
           const currentIndex = sortedMediaItems.findIndex(
             (m) => m.title === selectedMedia.title
           );
-          const nextIndex = (currentIndex + 1) % sortedMediaItems.length;
-          const nextMedia = sortedMediaItems[nextIndex];
-          setSelectedMedia(nextMedia);
-          setSearchParams({ modal: nextMedia.title });
+          const nextIndex = currentIndex + 1;
+          if (nextIndex < sortedMediaItems.length) {
+            const nextMedia = sortedMediaItems[nextIndex];
+            setSelectedMedia(nextMedia);
+            setSearchParams({ modal: nextMedia.title });
+          }
         }}
+        isFirst={
+          selectedMedia
+            ? sortedMediaItems.findIndex((m) => m.title === selectedMedia.title) === 0
+            : false
+        }
+        isLast={
+          selectedMedia
+            ? sortedMediaItems.findIndex((m) => m.title === selectedMedia.title) === sortedMediaItems.length - 1
+            : false
+        }
       />
     </>
   );
