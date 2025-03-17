@@ -105,7 +105,7 @@ const CustomTimeline = () => {
           minHeight: "80vh",
           flexWrap: "nowrap",
           alignItems: "flex-start",
-          gap: "0.5rem",
+          gap: "5rem",
         }}
       >
         <div
@@ -157,9 +157,9 @@ const CustomTimeline = () => {
           ))}
         </div>
         <div
-          style={{
+        style={{
             flex: 1,
-            padding: "0.25rem 0.25rem 0.25rem 0",
+            padding: "1rem",
             boxSizing: "border-box",
             minHeight: "80vh",
           }}
@@ -184,7 +184,7 @@ const CustomTimeline = () => {
                   {showYearHeader && (
                     <TimelineItem>
                       <TimelineOppositeContent
-                        sx={{ textAlign: "left", paddingTop: "1rem" }}
+                        sx={{ minWidth: 0, flex: 0, pr: 1, textAlign: "left", paddingTop: "1rem" }}
                       >
                         <Typography
                           id={`year-${mediaYear}`}
@@ -199,7 +199,7 @@ const CustomTimeline = () => {
                     </TimelineItem>
                   )}
                   <TimelineItem>
-                    <TimelineOppositeContent color="textSecondary">
+                    <TimelineOppositeContent color="textSecondary" sx={{ flex: 0.20, minWidth: "80px", pr: 2 }}>
                       <Typography variant="body2">
                         {new Date(media.date_published).toLocaleDateString(
                           undefined,
@@ -228,7 +228,7 @@ const CustomTimeline = () => {
                         ) && <TimelineConnector />}
                     </TimelineSeparator>
                     <TimelineContent>
-                      <Box
+                    <Box
                         onClick={() => {
                           setSelectedMedia(media);
                           setModalOpen(true);
@@ -239,6 +239,8 @@ const CustomTimeline = () => {
                           border: "2px solid #ccc",
                           borderRadius: "8px",
                           padding: "0.5rem",
+                          width: "25rem",
+                          // minHeight: "120px",
                           transition:
                             "box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out",
                           "&:hover": {
@@ -246,7 +248,7 @@ const CustomTimeline = () => {
                             borderColor: "#1e88e5",
                           },
                         }}
-                      >
+                    >
                         <Typography
                           variant="h6"
                           sx={{ mb: 0.0, fontWeight: "bold" }}
