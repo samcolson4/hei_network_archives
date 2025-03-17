@@ -89,28 +89,40 @@ const CustomTimeline = () => {
     return () => observer.disconnect();
   }, [sortedMediaItems]);
 
-  const getDotColor = (show: string | null, collection: string): string => {
-    switch (collection) {
-      case "Bonus Content":
-        return Colors.green;
-      case "Oscar Specials":
-        return Colors.yellow;
-      case "news":
-        return Colors.green;
+  const getDotColor = (
+    franchise: string | null,
+    mediaType: string,
+    seasonName: string | null,
+  isBonus?: boolean
+  ): string => {
+    if (isBonus) {
+      return Colors.green;
     }
 
-    switch (show) {
-      case "on_cinema":
-        return Colors.red;
-      case "heilot":
-        return Colors.green;
-      case "Decker":
-        return Colors.blue;
-      case "on_cinema_podcast":
-        return Colors.purple;
-      default:
-        return Colors.default;
+    if (seasonName && seasonName.toLowerCase().includes("oscar special")) {
+      return Colors.yellow;
     }
+
+    if (franchise) {
+      switch (franchise) {
+        case "on_cinema":
+          return Colors.red;
+        case "heilot":
+          return Colors.purple;
+        case "Decker":
+          return Colors.blue;
+        case "on_cinema_podcast":
+          return Colors.purple;
+        default:
+          break;
+      }
+    }
+
+    if (mediaType === "article") {
+      return Colors.green;
+    }
+
+    return Colors.default;
   };
 
   const formatLabel = (str: string) =>
@@ -237,10 +249,7 @@ const CustomTimeline = () => {
                     <TimelineSeparator>
                       <TimelineDot
                         sx={{
-                          backgroundColor: getDotColor(
-                            media.show,
-                            media.collection
-                          ),
+                          backgroundColor: getDotColor(media.franchise, media.media_type, media.season_name, Boolean(media.is_bonus)),
                         }}
                       />
                       {idx < sortedMediaItems.length - 1 &&
@@ -269,20 +278,20 @@ const CustomTimeline = () => {
                         }}
                       >
                         <Typography variant="h6">{media.title}</Typography>
-                        {media.show && (
+                        {media.franchise && (
                           <Typography
                             variant="subtitle1"
                             sx={{ mb: 0.0, fontStyle: "italic" }}
                           >
-                            {formatLabel(media.show)}
+                            {formatLabel(media.franchise)}
                           </Typography>
                         )}
-                        {media.collection && (
+                        {media.season_name && (
                           <Typography
                             variant="subtitle1"
                             sx={{ mb: 0.0, fontStyle: "italic" }}
                           >
-                            {formatLabel(media.collection)}
+                            {formatLabel(media.season_name)}
                           </Typography>
                         )}
                       </Box>
@@ -300,7 +309,14 @@ const CustomTimeline = () => {
           setModalOpen(false);
           setSearchParams({});
         }}
-        media={selectedMedia}
+        media={
+          selectedMedia
+            ? {
+                ...selectedMedia,
+                poster_url: selectedMedia.poster_url ?? undefined,
+              }
+            : null
+        }
         onPrev={() => {
           if (!selectedMedia) return;
           const currentIndex = sortedMediaItems.findIndex(
