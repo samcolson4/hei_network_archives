@@ -246,21 +246,21 @@ const CustomTimeline = () => {
                           },
                         }}
                       >
-                        <Typography variant="h6">{media.title}</Typography>
-                        {media.franchise && (
-                          <Typography
-                            variant="subtitle1"
-                            sx={{ mb: 0.0, fontStyle: "italic" }}
-                          >
-                            {formatLabel(media.franchise)}
+                        <Typography
+                          variant="h6"
+                          sx={{ mb: 0.0, fontWeight: "bold" }}
+                        >
+                          {media.title}
+                        </Typography>
+                        {media.franchise && media.season_name && (
+                          <Typography variant="subtitle1" sx={{ mb: 0.0 }}>
+                            {formatLabel(media.franchise)}:{" "}
+                            {formatLabel(media.season_name)}
                           </Typography>
                         )}
-                        {media.season_name && (
-                          <Typography
-                            variant="subtitle1"
-                            sx={{ mb: 0.0, fontStyle: "italic" }}
-                          >
-                            {formatLabel(media.season_name)}
+                        {media.media_type === "article" && (
+                          <Typography variant="subtitle1" sx={{ mb: 0.0 }}>
+                            HEI Network News
                           </Typography>
                         )}
                       </Box>

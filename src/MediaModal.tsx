@@ -85,19 +85,19 @@ const MediaModal: React.FC<MediaModalProps> = ({
           }}
         >
           <div
-        style={{
-          width: 40,
-          height: 40,
-          borderRadius: "50%",
-          overflow: "hidden",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: "#fff",
-          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-        }}
-      >
-          {renderTimelineImage(media)}
+            style={{
+              width: 40,
+              height: 40,
+              borderRadius: "50%",
+              overflow: "hidden",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "#fff",
+              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+            }}
+          >
+            {renderTimelineImage(media)}
           </div>
         </Box>
         {media.poster_url && (
@@ -110,34 +110,29 @@ const MediaModal: React.FC<MediaModalProps> = ({
           </Box>
         )}
         <Typography variant="h6" sx={{ flex: 1, textAlign: "left" }}>
-            {media.url ? (
-              <a
-                href={media.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ textDecoration: "none", color: "#1e88e5" }}
-              >
-                {media.title}
-              </a>
-            ) : (
-              media.title
-            )}
-          </Typography>
-        {media.show && (
-          <Typography variant="subtitle1">{formatLabel(media.show)}</Typography>
-        )}
-        {media.franchise && (
-          <Typography variant="subtitle1">
-            {formatLabel(media.franchise)}
-          </Typography>
-        )}
-        <Typography variant="body2" gutterBottom>
-          {new Date(media.date_published).toLocaleDateString(undefined, {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-          })}
+          {media.url ? (
+            <a
+              href={media.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: "none", color: "#1e88e5" }}
+            >
+              {media.title}
+            </a>
+          ) : (
+            media.title
+          )}
         </Typography>
+        {media.franchise && media.season_name && (
+          <Typography variant="subtitle1" sx={{ mb: 0.0 }}>
+            {formatLabel(media.franchise)}: {formatLabel(media.season_name)}
+          </Typography>
+        )}
+        {media.media_type === "article" && (
+          <Typography variant="subtitle1" sx={{ mb: 0.0 }}>
+            HEI Network News
+          </Typography>
+        )}
         <Box
           sx={{
             display: "flex",
