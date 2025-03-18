@@ -24,6 +24,7 @@ const CustomTimeline = () => {
     (typeof allMedia)[number] | null
   >(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [selectedSeasons, setSelectedSeasons] = useState<string[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const hasOpenedFromURL = useRef(false);
   let currentYear: string | null = null;
@@ -73,6 +74,29 @@ const CustomTimeline = () => {
   allYears.sort((a, b) =>
     sortOrder === "desc" ? Number(b) - Number(a) : Number(a) - Number(b),
   );
+  const formatLabel = (str: string) =>
+    str
+      .split("_")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  const allSeasonNames: string[] = Array.from(
+    new Set(sortedMediaItems.map((m) => m.season_name).filter((s): s is string => Boolean(s)))
+  );
+  allSeasonNames.sort((a, b) => {
+    const seasonRegex = /^Season (\d+)$/i;
+    const aMatch = typeof a === "string" ? a.match(seasonRegex) : null;
+    const bMatch = typeof b === "string" ? b.match(seasonRegex) : null;
+
+    if (aMatch && bMatch) {
+      return Number(aMatch[1]) - Number(bMatch[1]);
+    } else if (aMatch) {
+      return -1;
+    } else if (bMatch) {
+      return 1;
+    } else {
+      return formatLabel(a ?? "").localeCompare(formatLabel(b ?? ""));
+    }
+  });
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -100,12 +124,6 @@ const CustomTimeline = () => {
     return () => observer.disconnect();
   }, [sortedMediaItems]);
 
-  const formatLabel = (str: string) =>
-    str
-      .split("_")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-
   return (
     <>
       <div
@@ -121,7 +139,7 @@ const CustomTimeline = () => {
       >
         <div
           style={{
-            width: "60px",
+            width: "260px",
             padding: "0.25rem",
             position: "sticky",
             top: "165px",
@@ -130,42 +148,88 @@ const CustomTimeline = () => {
             display: isMobile ? "none" : "block",
           }}
         >
-          <ToggleButton
-            value="sortToggle"
-            selected={sortOrder === "desc"}
-            onChange={() =>
-              setSortOrder((prev) => (prev === "desc" ? "asc" : "desc"))
-            }
-            style={{
-              padding: "0.25rem",
-              marginBottom: "0.75rem",
-              width: "100%",
-            }}
-          >
-            <SwapVertIcon />
-          </ToggleButton>
-          {allYears.map((year) => (
-            <button
-              key={year}
-              onClick={() => {
-                const el = document.getElementById(`year-${year}`);
-                if (el)
-                  el.scrollIntoView({ behavior: "smooth", block: "start" });
-              }}
-              style={{
-                display: "block",
-                marginBottom: "0.5rem",
-                cursor: "pointer",
-                width: "100%",
-                padding: "0.5rem",
-                fontWeight: activeYear === year ? "bold" : "normal",
-                backgroundColor: activeYear === year ? "#ddd" : "transparent",
-                border: activeYear === year ? "2px solid #aaa" : "none",
-              }}
-            >
-              {year}
-            </button>
-          ))}
+          <div style={{ display: "flex", gap: "0.75rem", width: "100%" }}>
+            {/* Year Column */}
+            <div style={{ flex: "1 1 auto", display: "flex", flexDirection: "column", gap: "0.5rem",
+              marginRight: "0.375rem",
+              borderRight: "1px solid #ccc",
+              paddingRight: "0.375rem",
+            }}>
+              <ToggleButton
+                value="sortToggle"
+                selected={sortOrder === "desc"}
+                onChange={() =>
+                  setSortOrder((prev) => (prev === "desc" ? "asc" : "desc"))
+                }
+                style={{
+                  padding: "0.25rem",
+                  width: "100%",
+                }}
+              >
+                <SwapVertIcon />
+              </ToggleButton>
+
+              {allYears.map((year) => (
+                <button
+                  key={year}
+                  onClick={() => {
+                    const el = document.getElementById(`year-${year}`);
+                    if (el)
+                      el.scrollIntoView({ behavior: "smooth", block: "start" });
+                  }}
+                  style={{
+                    cursor: "pointer",
+                    padding: "0.25rem 0.5rem",
+                    fontWeight: activeYear === year ? "bold" : "normal",
+                    backgroundColor: activeYear === year ? "#ddd" : "transparent",
+                    border: activeYear === year ? "2px solid #aaa" : "1px solid #ccc",
+                    borderRadius: "4px",
+                    textAlign: "left",
+                  }}
+                >
+                  {year}
+                </button>
+              ))}
+            </div>
+
+            {/* Season Column */}
+            <div style={{
+              flex: "1 1 auto",
+              display: "flex",
+              flexDirection: "column",
+              gap: "0.5rem",
+              maxHeight: "80vh",
+              overflowY: "auto",
+              overflowX: "hidden",
+              wordBreak: "break-word",
+              paddingLeft: "0.375rem",
+            }}>
+              {allSeasonNames.map((season) => (
+                  <button
+                    key={season}
+                    onClick={() => {
+                      setSelectedSeasons((prev) => {
+                        const newSeasons = prev.includes(season)
+                          ? prev.filter((s) => s !== season)
+                          : [...prev, season];
+                        return newSeasons.filter((s): s is string => typeof s === "string");
+                      });
+                    }}
+                    style={{
+                      cursor: "pointer",
+                      padding: "0.25rem 0.5rem",
+                      fontWeight: selectedSeasons.includes(season) ? "bold" : "normal",
+                      backgroundColor: selectedSeasons.includes(season) ? "#ddd" : "transparent",
+                      border: selectedSeasons.includes(season) ? "2px solid #aaa" : "1px solid #ccc",
+                      borderRadius: "4px",
+                      textAlign: "left",
+                    }}
+                  >
+                    {formatLabel(season)}
+                  </button>
+                ))}
+            </div>
+          </div>
         </div>
         <div
           style={{
@@ -184,7 +248,12 @@ const CustomTimeline = () => {
               },
             }}
           >
-            {sortedMediaItems.map((media, idx) => {
+            {sortedMediaItems
+              .filter((media) => {
+                if (selectedSeasons.length === 0) return true;
+                return media.season_name !== null && selectedSeasons.includes(media.season_name);
+              })
+              .map((media, idx) => {
               const mediaYear = new Date(media.date_published)
                 .getFullYear()
                 .toString();
