@@ -2,6 +2,7 @@ import React from "react";
 import { Modal, Box, Typography } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import { renderTimelineImage } from "./timelineDotUtils";
 import type { MediaItem } from "./types";
 
@@ -60,6 +61,8 @@ const MediaModal: React.FC<MediaModalProps> = ({
   const customPosterUrl =
     media.season_name === "On Cinema On Demand Encore"
       ? "/public/ocod_encore_poster.png"
+      : media.season_name === "The Podcast"
+      ? "/public/podcast.jpg"
       : media.poster_url;
 
   const formatLabel = (str: string) =>
@@ -107,18 +110,7 @@ const MediaModal: React.FC<MediaModalProps> = ({
           </Box>
         )}
         <Typography variant="h6" sx={{ flex: 1, textAlign: "left" }}>
-          {media.url ? (
-            <a
-              href={media.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ textDecoration: "none", color: "#1e88e5" }}
-            >
-              {media.title}
-            </a>
-          ) : (
-            media.title
-          )}
+          {media.title}
         </Typography>
         {media.franchise && media.season_name && (
           <Typography variant="subtitle1" sx={{ mb: 0.0 }}>
@@ -128,6 +120,24 @@ const MediaModal: React.FC<MediaModalProps> = ({
         {media.media_type === "article" && (
           <Typography variant="subtitle1" sx={{ mb: 0.0 }}>
             HEI Network News
+          </Typography>
+        )}
+        {media.url && (
+          <Typography variant="body2" sx={{ mb: 1 }}>
+            <a
+              href={media.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: "none", color: "#1e88e5", display: "inline-flex", alignItems: "center", gap: 4 }}
+            >
+              {media.media_type === "article"
+                ? "Read on"
+                : media.media_type === "movie"
+                ? "Find a place to watch on"
+                : media.media_type === "podcast"
+                ? "Listen on"
+                : "Watch on"} {new URL(media.url).hostname} <ArrowOutwardIcon fontSize="small" />
+            </a>
           </Typography>
         )}
         <Box
