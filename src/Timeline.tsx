@@ -28,6 +28,16 @@ const CustomTimeline = () => {
   const hasOpenedFromURL = useRef(false);
   let currentYear: string | null = null;
 
+  const supportOptions = [
+    "a coffee",
+    "organic champagne",
+    "an RJ's Shake",
+    "Germ Shield-X",
+  ];
+  const [randomSupportOption] = useState(() =>
+    supportOptions[Math.floor(Math.random() * supportOptions.length)]
+  );
+
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener("resize", handleResize);
@@ -285,6 +295,29 @@ const CustomTimeline = () => {
               );
             })}
           </Timeline>
+        </div>
+        <div style={{ position: "fixed", bottom: "1rem", right: "1rem", zIndex: 1000 }}>
+          <a
+            href="https://buymeacoffee.com/samcolson4"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              backgroundColor: "#FFDD00",
+              color: "#000",
+              borderRadius: "999px",
+              padding: "0.5rem 1rem",
+              textDecoration: "none",
+              fontWeight: "bold",
+              boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+            }}
+          >
+            <span role="img" aria-label="coffee" style={{ marginRight: "0.5rem" }}>
+              ☕
+            </span>
+            Buy me {isMobile ? "a coffee" : randomSupportOption}
+          </a>
         </div>
       </div>
       <MediaModal
