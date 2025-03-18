@@ -154,58 +154,7 @@ const CustomTimeline = () => {
             zIndex: 2,
           }}
         >
-            <div style={{ display: "flex", gap: "0.75rem", width: "100%" }}>
-            {/* Year Column */}
-            <div
-              style={{
-                flex: "1 1 auto",
-                display: "flex",
-                flexDirection: "column",
-                gap: "0.5rem",
-                marginRight: "0.375rem",
-
-                paddingRight: "0.375rem",
-              }}
-            >
-              <ToggleButton
-                value="sortToggle"
-                selected={sortOrder === "desc"}
-                onChange={() =>
-                  setSortOrder((prev) => (prev === "desc" ? "asc" : "desc"))
-                }
-                style={{
-                  padding: "0.25rem",
-                  width: "100%",
-                }}
-              >
-                <SwapVertIcon />
-              </ToggleButton>
-
-              {allYears.map((year) => (
-                <button
-                  key={year}
-                  onClick={() => {
-                    const el = document.getElementById(`year-${year}`);
-                    if (el)
-                      el.scrollIntoView({ behavior: "smooth", block: "start" });
-                  }}
-                  style={{
-                    cursor: "pointer",
-                    padding: "0.25rem 0.5rem",
-                    fontWeight: activeYear === year ? "bold" : "normal",
-                    backgroundColor:
-                      activeYear === year ? "#ddd" : "transparent",
-                    border:
-                      activeYear === year ? "2px solid #aaa" : "1px solid #ccc",
-                    borderRadius: "4px",
-                    textAlign: "left",
-                  }}
-                >
-                  {year}
-                </button>
-              ))}
-            </div>
-
+          <div style={{ display: "flex", gap: "0.75rem", width: "100%" }}>
             {/* Season Column */}
             <div
               style={{
@@ -272,6 +221,56 @@ const CustomTimeline = () => {
                   }}
                 >
                   {formatLabel(season)}
+                </button>
+              ))}
+            </div>
+            {/* Year Column */}
+            <div
+              style={{
+                flex: "1 1 auto",
+                display: "flex",
+                flexDirection: "column",
+                gap: "0.5rem",
+                marginRight: "0.375rem",
+
+                paddingRight: "0.375rem",
+              }}
+            >
+              <ToggleButton
+                value="sortToggle"
+                selected={sortOrder === "desc"}
+                onChange={() =>
+                  setSortOrder((prev) => (prev === "desc" ? "asc" : "desc"))
+                }
+                style={{
+                  padding: "0.25rem",
+                  width: "100%",
+                }}
+              >
+                <SwapVertIcon />
+              </ToggleButton>
+
+              {allYears.map((year) => (
+                <button
+                  key={year}
+                  onClick={() => {
+                    const el = document.getElementById(`year-${year}`);
+                    if (el)
+                      el.scrollIntoView({ behavior: "smooth", block: "start" });
+                  }}
+                  style={{
+                    cursor: "pointer",
+                    padding: "0.25rem 0.5rem",
+                    fontWeight: activeYear === year ? "bold" : "normal",
+                    backgroundColor:
+                      activeYear === year ? "#ddd" : "transparent",
+                    border:
+                      activeYear === year ? "2px solid #aaa" : "1px solid #ccc",
+                    borderRadius: "4px",
+                    textAlign: "left",
+                  }}
+                >
+                  {year}
                 </button>
               ))}
             </div>
