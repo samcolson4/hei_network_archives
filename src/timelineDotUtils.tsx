@@ -1,4 +1,3 @@
-import { Colors } from "./styles/colors";
 import PopcornIcon from "../public/popcorn.png";
 import SodaIcon from "../public/soda.png";
 import DeckerIcon from "../public/decker_phone.png";
@@ -24,30 +23,6 @@ export const formatLabel = (str: string) =>
     .split("_")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
-
-export const getDotColor = (
-  franchise: string | null,
-  mediaType: string,
-  seasonName: string | null,
-  isBonus?: boolean,
-): string => {
-  if (mediaType === "article") return Colors.blue;
-  if (isBonus) return Colors.green;
-  if (seasonName?.toLowerCase().includes("oscar special")) return Colors.yellow;
-
-  switch (franchise) {
-    case "on_cinema":
-      return Colors.red;
-    case "heilot":
-      return Colors.purple;
-    case "decker":
-      return Colors.blue;
-    case "on_cinema_podcast":
-      return Colors.purple;
-    default:
-      return Colors.default;
-  }
-};
 
 export const renderTimelineImage = (
   media: MediaItem,
