@@ -5,6 +5,7 @@ import DeckerIcon from "../public/decker_phone.png";
 import HeiLogo from "../public/hei_logo.png";
 import OscarIcon from "../public/oscar.png";
 import PodcastIcon from "../public/podcast_logo.png";
+import MovieStarIcon from "../public/movie_star.png";
 
 interface MediaItem {
   franchise: string | null;
@@ -53,6 +54,16 @@ export const renderTimelineImage = (
 
 ) => {
   const isOscar = media.season_name?.toLowerCase().includes("oscar");
+
+  if (media.media_type === 'movie') {
+    return (
+        <img
+          src={MovieStarIcon}
+          alt="Movie star icon"
+          style={{ width: "100%", height: "100%", objectFit: "contain" }}
+        />
+    );
+  }
 
   if (media.is_bonus) {
     return (

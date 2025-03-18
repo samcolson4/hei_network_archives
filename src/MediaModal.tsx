@@ -57,6 +57,11 @@ const MediaModal: React.FC<MediaModalProps> = ({
 
   if (!media) return null;
 
+  const customPosterUrl =
+    media.season_name === "On Cinema On Demand Encore"
+      ? "/public/ocod_encore_poster.png"
+      : media.poster_url;
+
   const formatLabel = (str: string) =>
     str
       .split("_")
@@ -92,10 +97,10 @@ const MediaModal: React.FC<MediaModalProps> = ({
             {renderTimelineImage(media)}
           </div>
         </Box>
-        {media.poster_url && (
+        {customPosterUrl && (
           <Box sx={{ mb: 2, display: "flex", justifyContent: "center" }}>
             <img
-              src={media.poster_url}
+              src={customPosterUrl}
               alt={media.title}
               style={{ maxWidth: "100%", height: "auto", borderRadius: "4px" }}
             />
