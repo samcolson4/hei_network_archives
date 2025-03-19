@@ -190,7 +190,8 @@ const CustomTimeline = () => {
             overflowY: "auto",
           }}
         >
-          <div style={{ display: "flex", gap: "0.75rem", width: "260px" }}>
+          <div style={{ display: "flex", flexDirection: "column", flexShrink: 0 }}>
+            <div style={{ display: "flex", gap: "0.75rem", width: "260px", flexShrink: 0 }}>
             {/* Season Column */}
             <div
               style={{
@@ -407,7 +408,9 @@ const CustomTimeline = () => {
                 style={{
                   padding: "0.25rem",
                   width: "100%",
+                  minWidth: "100%",
                   height: "2rem",
+                  minHeight: "2rem",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -415,6 +418,8 @@ const CustomTimeline = () => {
                   border: "1px solid #ccc",
                   backgroundColor: "transparent",
                   outline: "none",
+                  flexShrink: 0,
+                  transition: "none",
                 }}
               >
                 <SwapVertIcon />
@@ -443,6 +448,7 @@ const CustomTimeline = () => {
                   {year}
                 </button>
               ))}
+            </div>
             </div>
           </div>
         </div>
