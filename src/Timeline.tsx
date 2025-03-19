@@ -137,9 +137,10 @@ const supportOptions = [
           left: 0,
           width: "100%",
           zIndex: 1000,
-          backgroundColor: "#ffffff",
+          backgroundColor: "black",
           borderBottom: "1px solid #ccc",
           padding: "1rem",
+          paddingLeft: "2rem",
           textAlign: "left",
         }}
       >
@@ -148,6 +149,7 @@ const supportOptions = [
             margin: 0,
             marginBottom: "0.5rem",
             fontSize: "clamp(1.5rem, 6vw, 3rem)",
+            color: "white",
           }}
         >
           FiveBagsAndTwoSodas
@@ -157,6 +159,7 @@ const supportOptions = [
             margin: 0,
             marginBottom: "0.5rem",
             fontSize: "clamp(1rem, 4vw, 1.5rem)",
+            color: "white",
           }}
         >
           An On Cinema Timeline
