@@ -223,8 +223,71 @@ const CustomTimeline = () => {
                   height: "2rem",
                 }}
               >
-                All Seasons
+                Everything
               </button>
+
+              <hr style={{ margin: "0.25rem 0" }} />
+
+              <button
+                onClick={() => {
+                  setSelectedSeasons((prev) => {
+                    let newSeasons = prev.includes("ON_CINEMA")
+                      ? prev.filter((s) => s !== "ON_CINEMA")
+                      : [...prev.filter((s) => s !== "ALL"), "ON_CINEMA"];
+                    if (newSeasons.length === 0) newSeasons = ["ALL"];
+                    return newSeasons;
+                  });
+                }}
+                style={{
+                  cursor: "pointer",
+                  padding: "0.25rem 0.5rem",
+                  fontWeight: selectedSeasons.includes("ON_CINEMA")
+                    ? "bold"
+                    : "normal",
+                  backgroundColor: selectedSeasons.includes("ON_CINEMA")
+                    ? "#ddd"
+                    : "transparent",
+                  border: selectedSeasons.includes("ON_CINEMA")
+                    ? "2px solid #aaa"
+                    : "1px solid #ccc",
+                  borderRadius: "4px",
+                  textAlign: "left",
+                  height: "2rem",
+                }}
+              >
+                On Cinema
+              </button>
+
+              <button
+                onClick={() => {
+                  setSelectedSeasons((prev) => {
+                    let newSeasons = prev.includes("DECKER")
+                      ? prev.filter((s) => s !== "DECKER")
+                      : [...prev.filter((s) => s !== "ALL"), "DECKER"];
+                    if (newSeasons.length === 0) newSeasons = ["ALL"];
+                    return newSeasons;
+                  });
+                }}
+                style={{
+                  cursor: "pointer",
+                  padding: "0.25rem 0.5rem",
+                  fontWeight: selectedSeasons.includes("DECKER")
+                    ? "bold"
+                    : "normal",
+                  backgroundColor: selectedSeasons.includes("DECKER")
+                    ? "#ddd"
+                    : "transparent",
+                  border: selectedSeasons.includes("DECKER")
+                    ? "2px solid #aaa"
+                    : "1px solid #ccc",
+                  borderRadius: "4px",
+                  textAlign: "left",
+                  height: "2rem",
+                }}
+              >
+                Decker
+              </button>
+
               <button
                 onClick={() => {
                   setSelectedSeasons((prev) => {
@@ -238,7 +301,9 @@ const CustomTimeline = () => {
                 style={{
                   cursor: "pointer",
                   padding: "0.25rem 0.5rem",
-                  fontWeight: selectedSeasons.includes("BONUS") ? "bold" : "normal",
+                  fontWeight: selectedSeasons.includes("BONUS")
+                    ? "bold"
+                    : "normal",
                   backgroundColor: selectedSeasons.includes("BONUS")
                     ? "#ddd"
                     : "transparent",
@@ -252,6 +317,7 @@ const CustomTimeline = () => {
               >
                 Bonus content
               </button>
+
               <button
                 onClick={() => {
                   setSelectedSeasons((prev) => {
@@ -265,7 +331,9 @@ const CustomTimeline = () => {
                 style={{
                   cursor: "pointer",
                   padding: "0.25rem 0.5rem",
-                  fontWeight: selectedSeasons.includes("META") ? "bold" : "normal",
+                  fontWeight: selectedSeasons.includes("META")
+                    ? "bold"
+                    : "normal",
                   backgroundColor: selectedSeasons.includes("META")
                     ? "#ddd"
                     : "transparent",
@@ -279,6 +347,7 @@ const CustomTimeline = () => {
               >
                 Meta content
               </button>
+              <hr style={{ margin: "0.25rem 0" }} />
               {allSeasonNames.map((season) => (
                 <button
                   key={season}
@@ -393,10 +462,20 @@ const CustomTimeline = () => {
               .filter((media) => {
                 if (selectedSeasons.includes("ALL")) return true;
                 const matchesSeason =
-                  media.season_name && selectedSeasons.includes(media.season_name);
-                const matchesBonus = media.is_bonus && selectedSeasons.includes("BONUS");
-                const matchesMeta = media.is_meta && selectedSeasons.includes("META");
-                return matchesSeason || matchesBonus || matchesMeta;
+                  media.season_name &&
+                  selectedSeasons.includes(media.season_name);
+                const matchesBonus =
+                  media.is_bonus && selectedSeasons.includes("BONUS");
+                const matchesMeta =
+                  media.is_meta && selectedSeasons.includes("META");
+                const matchesOnCinema =
+                  media.franchise === "on_cinema" &&
+                  !media.is_bonus &&
+                  selectedSeasons.includes("ON_CINEMA");
+                const matchesDecker =
+                  media.franchise === "decker" &&
+                  selectedSeasons.includes("DECKER");
+                  return matchesSeason || matchesBonus || matchesMeta || matchesOnCinema || matchesDecker;
               })
               .map((media, idx) => {
                 const mediaYear = new Date(media.date_published)
