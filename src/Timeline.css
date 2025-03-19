@@ -1,0 +1,27 @@
+.timeline-hover-box {
+  position: relative;
+  z-index: 1;
+}
+
+.timeline-hover-box .timeline-poster {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  background-color: rgba(0, 0, 0, 0.1); /* Ensure it's visible even if the image fails */
+}
+
+.timeline-hover-box:hover .timeline-poster {
+  opacity: 0.15;
+  z-index: 0;
+}
+
+.timeline-hover-box:hover > .timeline-poster {
+  opacity: 0.15 !important;
+}

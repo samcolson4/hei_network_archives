@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import type { MediaItem } from "./types";
+import "./Timeline.css";
 import { useSearchParams } from "react-router-dom";
 import Timeline from "@mui/lab/Timeline";
 import TimelineItem from "@mui/lab/TimelineItem";
@@ -221,7 +222,7 @@ const CustomTimeline = () => {
                   borderRadius: "4px",
                   textAlign: "left",
                   height: "2rem",
-              }}
+                }}
               >
                 Everything
               </button>
@@ -253,7 +254,7 @@ const CustomTimeline = () => {
                   borderRadius: "4px",
                   textAlign: "left",
                   height: "2rem",
-              }}
+                }}
               >
                 On Cinema
               </button>
@@ -283,7 +284,7 @@ const CustomTimeline = () => {
                   borderRadius: "4px",
                   textAlign: "left",
                   height: "2rem",
-              }}
+                }}
               >
                 Decker
               </button>
@@ -313,7 +314,7 @@ const CustomTimeline = () => {
                   borderRadius: "4px",
                   textAlign: "left",
                   height: "2rem",
-              }}
+                }}
               >
                 Bonus content
               </button>
@@ -343,7 +344,7 @@ const CustomTimeline = () => {
                   borderRadius: "4px",
                   textAlign: "left",
                   height: "2rem",
-              }}
+                }}
               >
                 Meta content
               </button>
@@ -377,7 +378,7 @@ const CustomTimeline = () => {
                       : "1px solid #ccc",
                     borderRadius: "4px",
                     textAlign: "left",
-                }}
+                  }}
                 >
                   {formatLabel(season)}
                 </button>
@@ -437,7 +438,7 @@ const CustomTimeline = () => {
                       activeYear === year ? "2px solid #aaa" : "1px solid #ccc",
                     borderRadius: "4px",
                     textAlign: "left",
-                }}
+                  }}
                 >
                   {year}
                 </button>
@@ -481,7 +482,13 @@ const CustomTimeline = () => {
                 const matchesDecker =
                   media.franchise === "decker" &&
                   selectedSeasons.includes("DECKER");
-                  return matchesSeason || matchesBonus || matchesMeta || matchesOnCinema || matchesDecker;
+                return (
+                  matchesSeason ||
+                  matchesBonus ||
+                  matchesMeta ||
+                  matchesOnCinema ||
+                  matchesDecker
+                );
               })
               .map((media, idx) => {
                 const mediaYear = new Date(media.date_published)
@@ -568,7 +575,9 @@ const CustomTimeline = () => {
                             setModalOpen(true);
                             setSearchParams({ modal: media.title });
                           }}
+                          className="timeline-hover-box"
                           sx={{
+                            position: "relative",
                             cursor: "pointer",
                             border: "2px solid #ccc",
                             borderRadius: "8px",
@@ -582,23 +591,52 @@ const CustomTimeline = () => {
                             },
                           }}
                         >
-                          <Typography
-                            variant="h6"
-                            sx={{ mb: 0.0, fontWeight: "bold" }}
+                          {media.poster_url && (
+                            <img
+                              src={media.poster_url}
+                              alt={media.title}
+                              style={{
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                                opacity: 0,
+                                transition: "opacity 0.3s ease-in-out",
+                                zIndex: 0,
+                                pointerEvents: "none",
+                              }}
+                              className="timeline-poster"
+                            />
+                          )}
+                          <div
+                            style={{
+                              position: "relative",
+                              zIndex: 1,
+                              backgroundColor: "white",
+                              padding: "0.5rem",
+                              borderRadius: "4px",
+                            }}
                           >
-                            {media.title}
-                          </Typography>
-                          {media.franchise && media.season_name && (
-                            <Typography variant="subtitle1" sx={{ mb: 0.0 }}>
-                              {formatLabel(media.franchise)}:{" "}
-                              {formatLabel(media.season_name)}
+                            <Typography
+                              variant="h6"
+                              sx={{ mb: 0.0, fontWeight: "bold" }}
+                            >
+                              {media.title}
                             </Typography>
-                          )}
-                          {media.media_type === "article" && (
-                            <Typography variant="subtitle1" sx={{ mb: 0.0 }}>
-                              HEI Network News
-                            </Typography>
-                          )}
+                            {media.franchise && media.season_name && (
+                              <Typography variant="subtitle1" sx={{ mb: 0.0 }}>
+                                {formatLabel(media.franchise)}:{" "}
+                                {formatLabel(media.season_name)}
+                              </Typography>
+                            )}
+                            {media.media_type === "article" && (
+                              <Typography variant="subtitle1" sx={{ mb: 0.0 }}>
+                                HEI Network News
+                              </Typography>
+                            )}
+                          </div>
                         </Box>
                       </TimelineContent>
                     </TimelineItem>
