@@ -190,265 +190,279 @@ const CustomTimeline = () => {
             overflowY: "auto",
           }}
         >
-          <div style={{ display: "flex", flexDirection: "column", flexShrink: 0 }}>
-            <div style={{ display: "flex", gap: "0.75rem", width: "260px", flexShrink: 0 }}>
-            {/* Season Column */}
+          <div
+            style={{ display: "flex", flexDirection: "column", flexShrink: 0 }}
+          >
             <div
               style={{
-                flex: "1 1 auto",
                 display: "flex",
-                flexDirection: "column",
-                gap: "0.5rem",
-                maxHeight: "80vh",
-                overflowY: "auto",
-                overflowX: "hidden",
-                wordBreak: "break-word",
-                paddingLeft: "0.375rem",
+                gap: "0.75rem",
+                width: "260px",
+                flexShrink: 0,
               }}
             >
-              <button
-                onClick={() => setSelectedSeasons(["ALL"])}
+              {/* Season Column */}
+              <div
                 style={{
-                  cursor: "pointer",
-                  padding: "0.25rem 0.5rem",
-                  fontWeight: selectedSeasons.includes("ALL")
-                    ? "bold"
-                    : "normal",
-                  backgroundColor: selectedSeasons.includes("ALL")
-                    ? "#ddd"
-                    : "transparent",
-                  border: selectedSeasons.includes("ALL")
-                    ? "2px solid #aaa"
-                    : "1px solid #ccc",
-                  borderRadius: "4px",
-                  textAlign: "left",
-                  height: "2rem",
+                  flex: "1 1 auto",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "0.5rem",
+                  maxHeight: "80vh",
+                  overflowY: "auto",
+                  overflowX: "hidden",
+                  wordBreak: "break-word",
+                  paddingLeft: "0.375rem",
                 }}
               >
-                Everything
-              </button>
-
-              <hr style={{ margin: "0.25rem 0" }} />
-
-              <button
-                onClick={() => {
-                  setSelectedSeasons((prev) => {
-                    let newSeasons = prev.includes("ON_CINEMA")
-                      ? prev.filter((s) => s !== "ON_CINEMA")
-                      : [...prev.filter((s) => s !== "ALL"), "ON_CINEMA"];
-                    if (newSeasons.length === 0) newSeasons = ["ALL"];
-                    return newSeasons;
-                  });
-                }}
-                style={{
-                  cursor: "pointer",
-                  padding: "0.25rem 0.5rem",
-                  fontWeight: selectedSeasons.includes("ON_CINEMA")
-                    ? "bold"
-                    : "normal",
-                  backgroundColor: selectedSeasons.includes("ON_CINEMA")
-                    ? "#ddd"
-                    : "transparent",
-                  border: selectedSeasons.includes("ON_CINEMA")
-                    ? "2px solid #aaa"
-                    : "1px solid #ccc",
-                  borderRadius: "4px",
-                  textAlign: "left",
-                  height: "2rem",
-                }}
-              >
-                On Cinema
-              </button>
-
-              <button
-                onClick={() => {
-                  setSelectedSeasons((prev) => {
-                    let newSeasons = prev.includes("DECKER")
-                      ? prev.filter((s) => s !== "DECKER")
-                      : [...prev.filter((s) => s !== "ALL"), "DECKER"];
-                    if (newSeasons.length === 0) newSeasons = ["ALL"];
-                    return newSeasons;
-                  });
-                }}
-                style={{
-                  cursor: "pointer",
-                  padding: "0.25rem 0.5rem",
-                  fontWeight: selectedSeasons.includes("DECKER")
-                    ? "bold"
-                    : "normal",
-                  backgroundColor: selectedSeasons.includes("DECKER")
-                    ? "#ddd"
-                    : "transparent",
-                  border: selectedSeasons.includes("DECKER")
-                    ? "2px solid #aaa"
-                    : "1px solid #ccc",
-                  borderRadius: "4px",
-                  textAlign: "left",
-                  height: "2rem",
-                }}
-              >
-                Decker
-              </button>
-
-              <button
-                onClick={() => {
-                  setSelectedSeasons((prev) => {
-                    let newSeasons = prev.includes("BONUS")
-                      ? prev.filter((s) => s !== "BONUS")
-                      : [...prev.filter((s) => s !== "ALL"), "BONUS"];
-                    if (newSeasons.length === 0) newSeasons = ["ALL"];
-                    return newSeasons;
-                  });
-                }}
-                style={{
-                  cursor: "pointer",
-                  padding: "0.25rem 0.5rem",
-                  fontWeight: selectedSeasons.includes("BONUS")
-                    ? "bold"
-                    : "normal",
-                  backgroundColor: selectedSeasons.includes("BONUS")
-                    ? "#ddd"
-                    : "transparent",
-                  border: selectedSeasons.includes("BONUS")
-                    ? "2px solid #aaa"
-                    : "1px solid #ccc",
-                  borderRadius: "4px",
-                  textAlign: "left",
-                  height: "2rem",
-                }}
-              >
-                Bonus content
-              </button>
-
-              <button
-                onClick={() => {
-                  setSelectedSeasons((prev) => {
-                    let newSeasons = prev.includes("META")
-                      ? prev.filter((s) => s !== "META")
-                      : [...prev.filter((s) => s !== "ALL"), "META"];
-                    if (newSeasons.length === 0) newSeasons = ["ALL"];
-                    return newSeasons;
-                  });
-                }}
-                style={{
-                  cursor: "pointer",
-                  padding: "0.25rem 0.5rem",
-                  fontWeight: selectedSeasons.includes("META")
-                    ? "bold"
-                    : "normal",
-                  backgroundColor: selectedSeasons.includes("META")
-                    ? "#ddd"
-                    : "transparent",
-                  border: selectedSeasons.includes("META")
-                    ? "2px solid #aaa"
-                    : "1px solid #ccc",
-                  borderRadius: "4px",
-                  textAlign: "left",
-                  height: "2rem",
-                }}
-              >
-                Meta content
-              </button>
-              <hr style={{ margin: "0.25rem 0" }} />
-              {allSeasonNames.map((season) => (
                 <button
-                  key={season}
+                  onClick={() => setSelectedSeasons(["ALL"])}
+                  style={{
+                    cursor: "pointer",
+                    padding: "0.25rem 0.5rem",
+                    fontWeight: selectedSeasons.includes("ALL")
+                      ? "bold"
+                      : "normal",
+                    backgroundColor: selectedSeasons.includes("ALL")
+                      ? "#ddd"
+                      : "transparent",
+                    border: selectedSeasons.includes("ALL")
+                      ? "2px solid #aaa"
+                      : "1px solid #ccc",
+                    borderRadius: "4px",
+                    textAlign: "left",
+                    height: "2rem",
+                  }}
+                >
+                  Everything
+                </button>
+
+                <hr style={{ margin: "0.25rem 0" }} />
+
+                <button
                   onClick={() => {
                     setSelectedSeasons((prev) => {
-                      let newSeasons = prev.includes(season)
-                        ? prev.filter((s) => s !== season)
-                        : [...prev.filter((s) => s !== "ALL"), season];
-
+                      let newSeasons = prev.includes("ON_CINEMA")
+                        ? prev.filter((s) => s !== "ON_CINEMA")
+                        : [...prev.filter((s) => s !== "ALL"), "ON_CINEMA"];
                       if (newSeasons.length === 0) newSeasons = ["ALL"];
-                      return newSeasons.filter(
-                        (s): s is string => typeof s === "string",
-                      );
+                      return newSeasons;
                     });
                   }}
                   style={{
                     cursor: "pointer",
                     padding: "0.25rem 0.5rem",
-                    fontWeight: selectedSeasons.includes(season)
+                    fontWeight: selectedSeasons.includes("ON_CINEMA")
                       ? "bold"
                       : "normal",
-                    backgroundColor: selectedSeasons.includes(season)
+                    backgroundColor: selectedSeasons.includes("ON_CINEMA")
                       ? "#ddd"
                       : "transparent",
-                    border: selectedSeasons.includes(season)
+                    border: selectedSeasons.includes("ON_CINEMA")
                       ? "2px solid #aaa"
                       : "1px solid #ccc",
                     borderRadius: "4px",
                     textAlign: "left",
+                    height: "2rem",
                   }}
                 >
-                  {formatLabel(season)}
+                  On Cinema
                 </button>
-              ))}
-            </div>
-            {/* Year Column */}
-            <div
-              style={{
-                flex: "1 1 auto",
-                display: "flex",
-                flexDirection: "column",
-                gap: "0.5rem",
-                marginRight: "0.375rem",
 
-                paddingRight: "0.375rem",
-              }}
-            >
-              <ToggleButton
-                value="sortToggle"
-                selected={sortOrder === "desc"}
-                onChange={() =>
-                  setSortOrder((prev) => (prev === "desc" ? "asc" : "desc"))
-                }
-                disableFocusRipple
-                disableRipple
-                style={{
-                  padding: "0.25rem",
-                  width: "100%",
-                  minWidth: "100%",
-                  height: "2rem",
-                  minHeight: "2rem",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  boxShadow: "none",
-                  border: "1px solid #ccc",
-                  backgroundColor: "transparent",
-                  outline: "none",
-                  flexShrink: 0,
-                  transition: "none",
-                }}
-              >
-                <SwapVertIcon />
-              </ToggleButton>
-
-              {allYears.map((year) => (
                 <button
-                  key={year}
                   onClick={() => {
-                    const el = document.getElementById(`year-${year}`);
-                    if (el)
-                      el.scrollIntoView({ behavior: "smooth", block: "start" });
+                    setSelectedSeasons((prev) => {
+                      let newSeasons = prev.includes("DECKER")
+                        ? prev.filter((s) => s !== "DECKER")
+                        : [...prev.filter((s) => s !== "ALL"), "DECKER"];
+                      if (newSeasons.length === 0) newSeasons = ["ALL"];
+                      return newSeasons;
+                    });
                   }}
                   style={{
                     cursor: "pointer",
                     padding: "0.25rem 0.5rem",
-                    fontWeight: activeYear === year ? "bold" : "normal",
-                    backgroundColor:
-                      activeYear === year ? "#ddd" : "transparent",
-                    border:
-                      activeYear === year ? "2px solid #aaa" : "1px solid #ccc",
+                    fontWeight: selectedSeasons.includes("DECKER")
+                      ? "bold"
+                      : "normal",
+                    backgroundColor: selectedSeasons.includes("DECKER")
+                      ? "#ddd"
+                      : "transparent",
+                    border: selectedSeasons.includes("DECKER")
+                      ? "2px solid #aaa"
+                      : "1px solid #ccc",
                     borderRadius: "4px",
                     textAlign: "left",
+                    height: "2rem",
                   }}
                 >
-                  {year}
+                  Decker
                 </button>
-              ))}
-            </div>
+
+                <button
+                  onClick={() => {
+                    setSelectedSeasons((prev) => {
+                      let newSeasons = prev.includes("BONUS")
+                        ? prev.filter((s) => s !== "BONUS")
+                        : [...prev.filter((s) => s !== "ALL"), "BONUS"];
+                      if (newSeasons.length === 0) newSeasons = ["ALL"];
+                      return newSeasons;
+                    });
+                  }}
+                  style={{
+                    cursor: "pointer",
+                    padding: "0.25rem 0.5rem",
+                    fontWeight: selectedSeasons.includes("BONUS")
+                      ? "bold"
+                      : "normal",
+                    backgroundColor: selectedSeasons.includes("BONUS")
+                      ? "#ddd"
+                      : "transparent",
+                    border: selectedSeasons.includes("BONUS")
+                      ? "2px solid #aaa"
+                      : "1px solid #ccc",
+                    borderRadius: "4px",
+                    textAlign: "left",
+                    height: "2rem",
+                  }}
+                >
+                  Bonus content
+                </button>
+
+                <button
+                  onClick={() => {
+                    setSelectedSeasons((prev) => {
+                      let newSeasons = prev.includes("META")
+                        ? prev.filter((s) => s !== "META")
+                        : [...prev.filter((s) => s !== "ALL"), "META"];
+                      if (newSeasons.length === 0) newSeasons = ["ALL"];
+                      return newSeasons;
+                    });
+                  }}
+                  style={{
+                    cursor: "pointer",
+                    padding: "0.25rem 0.5rem",
+                    fontWeight: selectedSeasons.includes("META")
+                      ? "bold"
+                      : "normal",
+                    backgroundColor: selectedSeasons.includes("META")
+                      ? "#ddd"
+                      : "transparent",
+                    border: selectedSeasons.includes("META")
+                      ? "2px solid #aaa"
+                      : "1px solid #ccc",
+                    borderRadius: "4px",
+                    textAlign: "left",
+                    height: "2rem",
+                  }}
+                >
+                  Meta content
+                </button>
+                <hr style={{ margin: "0.25rem 0" }} />
+                {allSeasonNames.map((season) => (
+                  <button
+                    key={season}
+                    onClick={() => {
+                      setSelectedSeasons((prev) => {
+                        let newSeasons = prev.includes(season)
+                          ? prev.filter((s) => s !== season)
+                          : [...prev.filter((s) => s !== "ALL"), season];
+
+                        if (newSeasons.length === 0) newSeasons = ["ALL"];
+                        return newSeasons.filter(
+                          (s): s is string => typeof s === "string",
+                        );
+                      });
+                    }}
+                    style={{
+                      cursor: "pointer",
+                      padding: "0.25rem 0.5rem",
+                      fontWeight: selectedSeasons.includes(season)
+                        ? "bold"
+                        : "normal",
+                      backgroundColor: selectedSeasons.includes(season)
+                        ? "#ddd"
+                        : "transparent",
+                      border: selectedSeasons.includes(season)
+                        ? "2px solid #aaa"
+                        : "1px solid #ccc",
+                      borderRadius: "4px",
+                      textAlign: "left",
+                    }}
+                  >
+                    {formatLabel(season)}
+                  </button>
+                ))}
+              </div>
+              {/* Year Column */}
+              <div
+                style={{
+                  flex: "1 1 auto",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "0.5rem",
+                  marginRight: "0.375rem",
+
+                  paddingRight: "0.375rem",
+                }}
+              >
+                <ToggleButton
+                  value="sortToggle"
+                  selected={sortOrder === "desc"}
+                  onChange={() =>
+                    setSortOrder((prev) => (prev === "desc" ? "asc" : "desc"))
+                  }
+                  disableFocusRipple
+                  disableRipple
+                  style={{
+                    padding: "0.25rem",
+                    width: "100%",
+                    minWidth: "100%",
+                    height: "2rem",
+                    minHeight: "2rem",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    boxShadow: "none",
+                    border: "1px solid #ccc",
+                    backgroundColor: "transparent",
+                    outline: "none",
+                    flexShrink: 0,
+                    transition: "none",
+                  }}
+                >
+                  <SwapVertIcon />
+                </ToggleButton>
+
+                {allYears.map((year) => (
+                  <button
+                    key={year}
+                    onClick={() => {
+                      const el = document.getElementById(`year-${year}`);
+                      if (el)
+                        el.scrollIntoView({
+                          behavior: "smooth",
+                          block: "start",
+                        });
+                    }}
+                    style={{
+                      cursor: "pointer",
+                      padding: "0.25rem 0.5rem",
+                      fontWeight: activeYear === year ? "bold" : "normal",
+                      backgroundColor:
+                        activeYear === year ? "#ddd" : "transparent",
+                      border:
+                        activeYear === year
+                          ? "2px solid #aaa"
+                          : "1px solid #ccc",
+                      borderRadius: "4px",
+                      textAlign: "left",
+                    }}
+                  >
+                    {year}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -564,9 +578,43 @@ const CustomTimeline = () => {
                         >
                           {renderTimelineImage(media)}
                         </TimelineDot>
-                        {idx < sortedMediaItems.length - 1 && (
-                          <TimelineConnector />
-                        )}
+                        {(() => {
+                          const filteredItems = sortedMediaItems.filter(
+                            (media) => {
+                              if (selectedSeasons.includes("ALL")) return true;
+                              const matchesSeason =
+                                media.season_name &&
+                                selectedSeasons.includes(media.season_name);
+                              const matchesBonus =
+                                media.is_bonus &&
+                                selectedSeasons.includes("BONUS");
+                              const matchesMeta =
+                                media.is_meta &&
+                                selectedSeasons.includes("META");
+                              const matchesOnCinema =
+                                media.franchise === "on_cinema" &&
+                                !media.is_bonus &&
+                                selectedSeasons.includes("ON_CINEMA");
+                              const matchesDecker =
+                                media.franchise === "decker" &&
+                                selectedSeasons.includes("DECKER");
+                              return (
+                                matchesSeason ||
+                                matchesBonus ||
+                                matchesMeta ||
+                                matchesOnCinema ||
+                                matchesDecker
+                              );
+                            },
+                          );
+
+                          const mediaInFiltered = filteredItems[idx];
+                          const isLastFiltered =
+                            filteredItems.indexOf(mediaInFiltered) ===
+                            filteredItems.length - 1;
+
+                          return !isLastFiltered && <TimelineConnector />;
+                        })()}
                       </TimelineSeparator>
                       <TimelineContent
                         sx={{
