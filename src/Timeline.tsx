@@ -221,7 +221,7 @@ const CustomTimeline = () => {
                   borderRadius: "4px",
                   textAlign: "left",
                   height: "2rem",
-                }}
+              }}
               >
                 Everything
               </button>
@@ -253,7 +253,7 @@ const CustomTimeline = () => {
                   borderRadius: "4px",
                   textAlign: "left",
                   height: "2rem",
-                }}
+              }}
               >
                 On Cinema
               </button>
@@ -283,7 +283,7 @@ const CustomTimeline = () => {
                   borderRadius: "4px",
                   textAlign: "left",
                   height: "2rem",
-                }}
+              }}
               >
                 Decker
               </button>
@@ -313,7 +313,7 @@ const CustomTimeline = () => {
                   borderRadius: "4px",
                   textAlign: "left",
                   height: "2rem",
-                }}
+              }}
               >
                 Bonus content
               </button>
@@ -343,7 +343,7 @@ const CustomTimeline = () => {
                   borderRadius: "4px",
                   textAlign: "left",
                   height: "2rem",
-                }}
+              }}
               >
                 Meta content
               </button>
@@ -377,7 +377,7 @@ const CustomTimeline = () => {
                       : "1px solid #ccc",
                     borderRadius: "4px",
                     textAlign: "left",
-                  }}
+                }}
                 >
                   {formatLabel(season)}
                 </button>
@@ -401,13 +401,19 @@ const CustomTimeline = () => {
                 onChange={() =>
                   setSortOrder((prev) => (prev === "desc" ? "asc" : "desc"))
                 }
+                disableFocusRipple
+                disableRipple
                 style={{
                   padding: "0.25rem",
                   width: "100%",
-                  height: "2rem", // match button height
+                  height: "2rem",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
+                  boxShadow: "none",
+                  border: "1px solid #ccc",
+                  backgroundColor: "transparent",
+                  outline: "none",
                 }}
               >
                 <SwapVertIcon />
@@ -431,7 +437,7 @@ const CustomTimeline = () => {
                       activeYear === year ? "2px solid #aaa" : "1px solid #ccc",
                     borderRadius: "4px",
                     textAlign: "left",
-                  }}
+                }}
                 >
                   {year}
                 </button>
@@ -571,8 +577,8 @@ const CustomTimeline = () => {
                             transition:
                               "box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out",
                             "&:hover": {
-                              boxShadow: "0 0 10px rgba(30, 136, 229, 0.6)",
-                              borderColor: "#1e88e5",
+                              boxShadow: "none",
+                              borderColor: "#ccc",
                             },
                           }}
                         >
