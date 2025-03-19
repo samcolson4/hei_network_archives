@@ -29,12 +29,12 @@ const CustomTimeline = () => {
   const hasOpenedFromURL = useRef(false);
   let currentYear: string | null = null;
 
-  const supportOptions = [
-    "a coffee",
-    "organic champagne",
-    "an RJ's Shake",
-    "Germ Shield-X",
-  ];
+const supportOptions = [
+  "a coffee ☕",
+  "organic champagne 🥂",
+  "an RJ's Shake 🥤",
+  "Germ Shield-X 💊",
+];
   const [randomSupportOption] = useState(
     () => supportOptions[Math.floor(Math.random() * supportOptions.length)],
   );
@@ -130,6 +130,38 @@ const CustomTimeline = () => {
 
   return (
     <>
+    <div
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          zIndex: 1000,
+          backgroundColor: "#ffffff",
+          borderBottom: "1px solid #ccc",
+          padding: "1rem",
+          textAlign: "left",
+        }}
+      >
+        <h1
+          style={{
+            margin: 0,
+            marginBottom: "0.5rem",
+            fontSize: "clamp(1.5rem, 6vw, 3rem)",
+          }}
+        >
+          FiveBagsAndTwoSodas
+        </h1>
+        <h5
+          style={{
+            margin: 0,
+            marginBottom: "0.5rem",
+            fontSize: "clamp(1rem, 4vw, 1.5rem)",
+          }}
+        >
+          An On Cinema Timeline
+        </h5>
+      </div>
       <div
         style={{
           display: "flex",
@@ -143,18 +175,18 @@ const CustomTimeline = () => {
       >
         <div
           style={{
-            width: "260px",
+            position: "fixed",
+            top: "10rem",
+            left: "1rem",
             padding: "0.25rem",
-            position: "sticky",
-            top: "165px",
-            alignSelf: "flex-start",
-            height: "fit-content",
+            height: "calc(100vh - 7.5rem)",
             display: isMobile ? "none" : "block",
-            background: "white",
-            zIndex: 2,
+            background: "#fff",
+            zIndex: 999,
+            overflowY: "auto",
           }}
         >
-          <div style={{ display: "flex", gap: "0.75rem", width: "100%" }}>
+          <div style={{ display: "flex", gap: "0.75rem", width: "260px"}}>
             {/* Season Column */}
             <div
               style={{
@@ -185,6 +217,7 @@ const CustomTimeline = () => {
                     : "1px solid #ccc",
                   borderRadius: "4px",
                   textAlign: "left",
+                  height: "2rem",
                 }}
               >
                 All Seasons
@@ -245,6 +278,10 @@ const CustomTimeline = () => {
                 style={{
                   padding: "0.25rem",
                   width: "100%",
+                  height: "2rem", // match button height
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
                 <SwapVertIcon />
@@ -280,6 +317,8 @@ const CustomTimeline = () => {
           style={{
             flex: 1,
             padding: isMobile ? "1rem 0.5rem" : "2rem",
+            paddingLeft: isMobile ? "0.5rem" : "10rem",
+            paddingTop: isMobile ? "5rem" : "6rem",
             boxSizing: "border-box",
             minHeight: "80vh",
           }}
@@ -449,14 +488,7 @@ const CustomTimeline = () => {
               boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
             }}
           >
-            <span
-              role="img"
-              aria-label="coffee"
-              style={{ marginRight: "0.5rem" }}
-            >
-              ☕
-            </span>
-            Buy me {isMobile ? "a coffee" : randomSupportOption}
+            Buy me {isMobile ? "a coffee ☕" : randomSupportOption}
           </a>
         </div>
       </div>
