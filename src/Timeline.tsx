@@ -29,12 +29,12 @@ const CustomTimeline = () => {
   const hasOpenedFromURL = useRef(false);
   let currentYear: string | null = null;
 
-const supportOptions = [
-  "a coffee ☕",
-  "organic champagne 🥂",
-  "an RJ's Shake 🥤",
-  "Germ Shield-X 💊",
-];
+  const supportOptions = [
+    "a coffee ☕",
+    "organic champagne 🥂",
+    "an RJ's Shake 🥤",
+    "Germ Shield-X 💊",
+  ];
   const [randomSupportOption] = useState(
     () => supportOptions[Math.floor(Math.random() * supportOptions.length)],
   );
@@ -130,7 +130,7 @@ const supportOptions = [
 
   return (
     <>
-    <div
+      <div
         style={{
           position: "fixed",
           top: 0,
@@ -189,7 +189,7 @@ const supportOptions = [
             overflowY: "auto",
           }}
         >
-          <div style={{ display: "flex", gap: "0.75rem", width: "260px"}}>
+          <div style={{ display: "flex", gap: "0.75rem", width: "260px" }}>
             {/* Season Column */}
             <div
               style={{
@@ -224,6 +224,60 @@ const supportOptions = [
                 }}
               >
                 All Seasons
+              </button>
+              <button
+                onClick={() => {
+                  setSelectedSeasons((prev) => {
+                    let newSeasons = prev.includes("BONUS")
+                      ? prev.filter((s) => s !== "BONUS")
+                      : [...prev.filter((s) => s !== "ALL"), "BONUS"];
+                    if (newSeasons.length === 0) newSeasons = ["ALL"];
+                    return newSeasons;
+                  });
+                }}
+                style={{
+                  cursor: "pointer",
+                  padding: "0.25rem 0.5rem",
+                  fontWeight: selectedSeasons.includes("BONUS") ? "bold" : "normal",
+                  backgroundColor: selectedSeasons.includes("BONUS")
+                    ? "#ddd"
+                    : "transparent",
+                  border: selectedSeasons.includes("BONUS")
+                    ? "2px solid #aaa"
+                    : "1px solid #ccc",
+                  borderRadius: "4px",
+                  textAlign: "left",
+                  height: "2rem",
+                }}
+              >
+                Bonus content
+              </button>
+              <button
+                onClick={() => {
+                  setSelectedSeasons((prev) => {
+                    let newSeasons = prev.includes("META")
+                      ? prev.filter((s) => s !== "META")
+                      : [...prev.filter((s) => s !== "ALL"), "META"];
+                    if (newSeasons.length === 0) newSeasons = ["ALL"];
+                    return newSeasons;
+                  });
+                }}
+                style={{
+                  cursor: "pointer",
+                  padding: "0.25rem 0.5rem",
+                  fontWeight: selectedSeasons.includes("META") ? "bold" : "normal",
+                  backgroundColor: selectedSeasons.includes("META")
+                    ? "#ddd"
+                    : "transparent",
+                  border: selectedSeasons.includes("META")
+                    ? "2px solid #aaa"
+                    : "1px solid #ccc",
+                  borderRadius: "4px",
+                  textAlign: "left",
+                  height: "2rem",
+                }}
+              >
+                Meta content
               </button>
               {allSeasonNames.map((season) => (
                 <button
@@ -338,10 +392,11 @@ const supportOptions = [
             {sortedMediaItems
               .filter((media) => {
                 if (selectedSeasons.includes("ALL")) return true;
-                return (
-                  media.season_name !== null &&
-                  selectedSeasons.includes(media.season_name)
-                );
+                const matchesSeason =
+                  media.season_name && selectedSeasons.includes(media.season_name);
+                const matchesBonus = media.is_bonus && selectedSeasons.includes("BONUS");
+                const matchesMeta = media.is_meta && selectedSeasons.includes("META");
+                return matchesSeason || matchesBonus || matchesMeta;
               })
               .map((media, idx) => {
                 const mediaYear = new Date(media.date_published)
