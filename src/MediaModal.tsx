@@ -122,6 +122,15 @@ const MediaModal: React.FC<MediaModalProps> = ({
             HEI Network News
           </Typography>
         )}
+        {media.date_published && (
+          <Typography variant="subtitle2" sx={{ mb: 1 }}>
+            {new Date(media.date_published).toLocaleDateString("en-GB", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            })}
+          </Typography>
+        )}
         {media.url && (
           <Typography variant="body2" sx={{ mb: 1 }}>
             <a
