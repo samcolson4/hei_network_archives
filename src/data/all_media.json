@@ -516,8 +516,8 @@
     "published_by": null,
     "url": "https://heinetwork.tv/episode/season-14-wrap-party/",
     "poster_url": "https://www.heinetwork.tv/wp-content/uploads/2024/04/s14-wrap.jpg",
-    "is_bonus": false,
-    "is_meta": false
+    "is_bonus": true,
+    "is_meta": true
   },
   {
     "franchise": "on_cinema",
@@ -763,8 +763,8 @@
     "published_by": null,
     "url": "https://heinetwork.tv/episode/season-13-wrap-party/",
     "poster_url": "https://www.heinetwork.tv/wp-content/uploads/2024/04/s12-wrap.jpg",
-    "is_bonus": false,
-    "is_meta": false
+    "is_bonus": true,
+    "is_meta": true
   },
   {
     "franchise": "on_cinema",
