@@ -14,25 +14,9 @@ import { Typography, ToggleButton, Box } from "@mui/material";
 import SwapVertIcon from "@mui/icons-material/SwapVert";
 import allMedia from "./data/all_media.json";
 import MediaModal from "./MediaModal";
+import AboutModal from "./AboutModal";
 import { renderTimelineImage } from "./timelineDotUtils";
 import { TimelineDot } from "@mui/lab";
-import { Dialog, DialogTitle, DialogContent } from "@mui/material";
-
-const AboutModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
-  return (
-    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>About This Timeline</DialogTitle>
-      <DialogContent>
-        <Typography paragraph>
-          This is a fan-created archive of the On Cinema universe, unaffiliated with the HEI Network.
-        </Typography>
-        <Typography paragraph>
-          You can customize this content in the <code>AboutModal</code> component inside <code>Timeline.tsx</code>.
-        </Typography>
-      </DialogContent>
-    </Dialog>
-  );
-};
 
 const CustomTimeline = () => {
   const [activeYear, setActiveYear] = useState<string | null>(null);
