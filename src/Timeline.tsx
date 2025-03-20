@@ -167,6 +167,32 @@ const CustomTimeline = () => {
           >
             An unofficial On Cinema timeline
           </h4>
+          {!isMobile && (
+            <div style={{ position: "absolute", top: "4rem", right: "10rem" }}>
+              <button
+                onClick={() => {
+                  const randomIndex = Math.floor(Math.random() * sortedMediaItems.length);
+                  const randomItem = sortedMediaItems[randomIndex];
+                  setSelectedMedia(randomItem);
+                  setModalOpen(true);
+                  setSearchParams({ modal: randomItem.title });
+                }}
+                style={{
+                  backgroundColor: "#FFDD00",
+                  color: "#000",
+                  border: "1px solid #000",
+                  borderRadius: "4px",
+                  padding: "0.5rem 1rem",
+                  cursor: "pointer",
+                  fontSize: "1rem",
+                  fontWeight: "bold",
+                  boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+                }}
+              >
+                Random item
+              </button>
+            </div>
+          )}
           <div style={{ position: "absolute", top: "4rem", right: "4rem" }}>
             <button
               onClick={() => setAboutOpen(true)}
