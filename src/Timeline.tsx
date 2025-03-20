@@ -726,6 +726,33 @@ const CustomTimeline = () => {
             Buy me {isMobile ? "a coffee ☕" : randomSupportOption}
           </a>
         </div>
+        <div
+          style={{
+            position: "fixed",
+            bottom: "4rem",
+            right: "1rem",
+            zIndex: 1000,
+          }}
+        >
+          <a
+            href="https://www.heinetwork.tv/tip-center"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              backgroundColor: "#FFDD00",
+              color: "#000",
+              borderRadius: "999px",
+              padding: "0.5rem 1rem",
+              textDecoration: "none",
+              fontWeight: "bold",
+              boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+            }}
+          >
+            Support the HEI Network
+          </a>
+        </div>
       </div>
       <MediaModal
         open={modalOpen}
