@@ -10,7 +10,14 @@ import TimelineContent, {
   timelineContentClasses,
 } from "@mui/lab/TimelineContent";
 import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
-import { Typography, ToggleButton, Box, Button } from "@mui/material";
+import {
+  Typography,
+  ToggleButton,
+  Box,
+  Button,
+  SxProps,
+  Theme,
+} from "@mui/material";
 import SwapVertIcon from "@mui/icons-material/SwapVert";
 import allMedia from "./data/all_media.json";
 import MediaModal from "./MediaModal";
@@ -35,13 +42,37 @@ const CustomTimeline = () => {
   const seasonStyle = (selected: boolean): React.CSSProperties => ({
     cursor: "pointer",
     padding: "0.25rem 0.5rem",
-    fontWeight: selected ? "bold" : "normal",
+    fontWeight: selected ? 700 : 400,
     backgroundColor: selected ? "#ffe600" : "transparent",
-    border: selected ? "2px solid #999" : "1px solid #ccc",
+    border: selected ? "2px solid #000000" : "1px solid #ccc",
     borderRadius: "4px",
     textAlign: "left",
     boxShadow: selected ? "0 0 6px rgba(0, 0, 0, 0.3)" : "none",
     transition: "all 0.2s ease",
+    textTransform: "none",
+    justifyContent: "flex-start",
+    color: "black",
+    outline: "none",
+  });
+
+  const getSeasonButtonSx = (selected: boolean): SxProps<Theme> => ({
+    ...seasonStyle(selected),
+    "&:hover": {
+      outline: "2px solid black",
+      boxShadow: "none",
+    },
+    "&:focus": {
+      outline: "none",
+      boxShadow: "none",
+    },
+    "&:focus-visible": {
+      outline: "none",
+      boxShadow: "none",
+    },
+    "&.Mui-focusVisible": {
+      outline: "none",
+      boxShadow: "none",
+    },
   });
 
   const supportOptions = [
@@ -181,9 +212,11 @@ const CustomTimeline = () => {
           </h4>
           {!isMobile && (
             <div style={{ position: "absolute", top: "4rem", right: "10rem" }}>
-              <button
+              <Button
                 onClick={() => {
-                  const randomIndex = Math.floor(Math.random() * sortedMediaItems.length);
+                  const randomIndex = Math.floor(
+                    Math.random() * sortedMediaItems.length,
+                  );
                   const randomItem = sortedMediaItems[randomIndex];
                   setSelectedMedia(randomItem);
                   setModalOpen(true);
@@ -202,11 +235,11 @@ const CustomTimeline = () => {
                 }}
               >
                 Random item
-              </button>
+              </Button>
             </div>
           )}
           <div style={{ position: "absolute", top: "4rem", right: "4rem" }}>
-            <button
+            <Button
               onClick={() => setAboutOpen(true)}
               style={{
                 backgroundColor: "#FFDD00",
@@ -221,10 +254,9 @@ const CustomTimeline = () => {
               }}
             >
               About
-            </button>
+            </Button>
           </div>
         </div>
-
       </div>
       <div
         style={{
@@ -274,18 +306,20 @@ const CustomTimeline = () => {
                   overflowX: "hidden",
                   wordBreak: "break-word",
                   paddingLeft: "0.375rem",
+                  paddingRight: "1rem",
+                  paddingTop: "0.375rem",
                 }}
               >
                 <Button
                   onClick={() => setSelectedSeasons(["ALL"])}
-                  sx={seasonStyle(selectedSeasons.includes("ALL"))}
+                  sx={getSeasonButtonSx(selectedSeasons.includes("ALL"))}
                 >
                   Everything
                 </Button>
 
                 <hr style={{ margin: "0.25rem 0" }} />
 
-                <button
+                <Button
                   onClick={() => {
                     setSelectedSeasons((prev) => {
                       let newSeasons = prev.includes("ON_CINEMA")
@@ -295,12 +329,12 @@ const CustomTimeline = () => {
                       return newSeasons;
                     });
                   }}
-                  style={seasonStyle(selectedSeasons.includes("ON_CINEMA"))}
+                  sx={getSeasonButtonSx(selectedSeasons.includes("ON_CINEMA"))}
                 >
                   On Cinema
-                </button>
+                </Button>
 
-                <button
+                <Button
                   onClick={() => {
                     setSelectedSeasons((prev) => {
                       let newSeasons = prev.includes("DECKER")
@@ -310,12 +344,12 @@ const CustomTimeline = () => {
                       return newSeasons;
                     });
                   }}
-                  style={seasonStyle(selectedSeasons.includes("DECKER"))}
+                  sx={getSeasonButtonSx(selectedSeasons.includes("DECKER"))}
                 >
                   Decker
-                </button>
+                </Button>
 
-                <button
+                <Button
                   onClick={() => {
                     setSelectedSeasons((prev) => {
                       let newSeasons = prev.includes("BONUS")
@@ -325,12 +359,12 @@ const CustomTimeline = () => {
                       return newSeasons;
                     });
                   }}
-                  style={seasonStyle(selectedSeasons.includes("BONUS"))}
+                  sx={getSeasonButtonSx(selectedSeasons.includes("BONUS"))}
                 >
                   Bonus content
-                </button>
+                </Button>
 
-                <button
+                <Button
                   onClick={() => {
                     setSelectedSeasons((prev) => {
                       let newSeasons = prev.includes("META")
@@ -340,13 +374,13 @@ const CustomTimeline = () => {
                       return newSeasons;
                     });
                   }}
-                  style={seasonStyle(selectedSeasons.includes("META"))}
+                  sx={getSeasonButtonSx(selectedSeasons.includes("META"))}
                 >
                   Meta content
-                </button>
+                </Button>
                 <hr style={{ margin: "0.25rem 0" }} />
                 {allSeasonNames.map((season) => (
-                  <button
+                  <Button
                     key={season}
                     onClick={() => {
                       setSelectedSeasons((prev) => {
@@ -360,10 +394,10 @@ const CustomTimeline = () => {
                         );
                       });
                     }}
-                    style={seasonStyle(selectedSeasons.includes(season))}
+                    sx={getSeasonButtonSx(selectedSeasons.includes(season))}
                   >
                     {formatLabel(season)}
-                  </button>
+                  </Button>
                 ))}
               </div>
               {/* Year Column */}
@@ -407,7 +441,7 @@ const CustomTimeline = () => {
                 </ToggleButton>
 
                 {allYears.map((year) => (
-                  <button
+                  <Button
                     key={year}
                     onClick={() => {
                       const el = document.getElementById(`year-${year}`);
@@ -432,7 +466,7 @@ const CustomTimeline = () => {
                     }}
                   >
                     {year}
-                  </button>
+                  </Button>
                 ))}
               </div>
             </div>
@@ -768,11 +802,11 @@ const CustomTimeline = () => {
           selectedMedia
             ? sortedMediaItems.findIndex(
                 (m) => m.title === selectedMedia.title,
-              ) === sortedMediaItems.length - 1
+              ) ===
+              sortedMediaItems.length - 1
             : false
         }
-      >
-      </MediaModal>
+      ></MediaModal>
 
       <AboutModal open={aboutOpen} onClose={() => setAboutOpen(false)} />
     </>
