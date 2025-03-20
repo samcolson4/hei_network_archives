@@ -10,7 +10,7 @@ import TimelineContent, {
   timelineContentClasses,
 } from "@mui/lab/TimelineContent";
 import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
-import { Typography, ToggleButton, Box } from "@mui/material";
+import { Typography, ToggleButton, Box, Button } from "@mui/material";
 import SwapVertIcon from "@mui/icons-material/SwapVert";
 import allMedia from "./data/all_media.json";
 import MediaModal from "./MediaModal";
@@ -31,6 +31,18 @@ const CustomTimeline = () => {
   const [aboutOpen, setAboutOpen] = useState(false);
   const hasOpenedFromURL = useRef(false);
   let currentYear: string | null = null;
+
+  const seasonStyle = (selected: boolean): React.CSSProperties => ({
+    cursor: "pointer",
+    padding: "0.25rem 0.5rem",
+    fontWeight: selected ? "bold" : "normal",
+    backgroundColor: selected ? "#ffe600" : "transparent",
+    border: selected ? "2px solid #999" : "1px solid #ccc",
+    borderRadius: "4px",
+    textAlign: "left",
+    boxShadow: selected ? "0 0 6px rgba(0, 0, 0, 0.3)" : "none",
+    transition: "all 0.2s ease",
+  });
 
   const supportOptions = [
     "a coffee ☕",
@@ -226,6 +238,7 @@ const CustomTimeline = () => {
         }}
       >
         <div
+          className="sidebar"
           style={{
             position: "fixed",
             top: "10rem",
@@ -263,27 +276,12 @@ const CustomTimeline = () => {
                   paddingLeft: "0.375rem",
                 }}
               >
-                <button
+                <Button
                   onClick={() => setSelectedSeasons(["ALL"])}
-                  style={{
-                    cursor: "pointer",
-                    padding: "0.25rem 0.5rem",
-                    fontWeight: selectedSeasons.includes("ALL")
-                      ? "bold"
-                      : "normal",
-                    backgroundColor: selectedSeasons.includes("ALL")
-                      ? "#ddd"
-                      : "transparent",
-                    border: selectedSeasons.includes("ALL")
-                      ? "2px solid #aaa"
-                      : "1px solid #ccc",
-                    borderRadius: "4px",
-                    textAlign: "left",
-                    height: "2rem",
-                  }}
+                  sx={seasonStyle(selectedSeasons.includes("ALL"))}
                 >
                   Everything
-                </button>
+                </Button>
 
                 <hr style={{ margin: "0.25rem 0" }} />
 
@@ -297,22 +295,7 @@ const CustomTimeline = () => {
                       return newSeasons;
                     });
                   }}
-                  style={{
-                    cursor: "pointer",
-                    padding: "0.25rem 0.5rem",
-                    fontWeight: selectedSeasons.includes("ON_CINEMA")
-                      ? "bold"
-                      : "normal",
-                    backgroundColor: selectedSeasons.includes("ON_CINEMA")
-                      ? "#ddd"
-                      : "transparent",
-                    border: selectedSeasons.includes("ON_CINEMA")
-                      ? "2px solid #aaa"
-                      : "1px solid #ccc",
-                    borderRadius: "4px",
-                    textAlign: "left",
-                    height: "2rem",
-                  }}
+                  style={seasonStyle(selectedSeasons.includes("ON_CINEMA"))}
                 >
                   On Cinema
                 </button>
@@ -327,22 +310,7 @@ const CustomTimeline = () => {
                       return newSeasons;
                     });
                   }}
-                  style={{
-                    cursor: "pointer",
-                    padding: "0.25rem 0.5rem",
-                    fontWeight: selectedSeasons.includes("DECKER")
-                      ? "bold"
-                      : "normal",
-                    backgroundColor: selectedSeasons.includes("DECKER")
-                      ? "#ddd"
-                      : "transparent",
-                    border: selectedSeasons.includes("DECKER")
-                      ? "2px solid #aaa"
-                      : "1px solid #ccc",
-                    borderRadius: "4px",
-                    textAlign: "left",
-                    height: "2rem",
-                  }}
+                  style={seasonStyle(selectedSeasons.includes("DECKER"))}
                 >
                   Decker
                 </button>
@@ -357,22 +325,7 @@ const CustomTimeline = () => {
                       return newSeasons;
                     });
                   }}
-                  style={{
-                    cursor: "pointer",
-                    padding: "0.25rem 0.5rem",
-                    fontWeight: selectedSeasons.includes("BONUS")
-                      ? "bold"
-                      : "normal",
-                    backgroundColor: selectedSeasons.includes("BONUS")
-                      ? "#ddd"
-                      : "transparent",
-                    border: selectedSeasons.includes("BONUS")
-                      ? "2px solid #aaa"
-                      : "1px solid #ccc",
-                    borderRadius: "4px",
-                    textAlign: "left",
-                    height: "2rem",
-                  }}
+                  style={seasonStyle(selectedSeasons.includes("BONUS"))}
                 >
                   Bonus content
                 </button>
@@ -387,22 +340,7 @@ const CustomTimeline = () => {
                       return newSeasons;
                     });
                   }}
-                  style={{
-                    cursor: "pointer",
-                    padding: "0.25rem 0.5rem",
-                    fontWeight: selectedSeasons.includes("META")
-                      ? "bold"
-                      : "normal",
-                    backgroundColor: selectedSeasons.includes("META")
-                      ? "#ddd"
-                      : "transparent",
-                    border: selectedSeasons.includes("META")
-                      ? "2px solid #aaa"
-                      : "1px solid #ccc",
-                    borderRadius: "4px",
-                    textAlign: "left",
-                    height: "2rem",
-                  }}
+                  style={seasonStyle(selectedSeasons.includes("META"))}
                 >
                   Meta content
                 </button>
@@ -422,21 +360,7 @@ const CustomTimeline = () => {
                         );
                       });
                     }}
-                    style={{
-                      cursor: "pointer",
-                      padding: "0.25rem 0.5rem",
-                      fontWeight: selectedSeasons.includes(season)
-                        ? "bold"
-                        : "normal",
-                      backgroundColor: selectedSeasons.includes(season)
-                        ? "#ddd"
-                        : "transparent",
-                      border: selectedSeasons.includes(season)
-                        ? "2px solid #aaa"
-                        : "1px solid #ccc",
-                      borderRadius: "4px",
-                      textAlign: "left",
-                    }}
+                    style={seasonStyle(selectedSeasons.includes(season))}
                   >
                     {formatLabel(season)}
                   </button>
