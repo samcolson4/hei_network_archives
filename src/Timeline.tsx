@@ -129,7 +129,7 @@ const CustomTimeline = () => {
     yearHeaders.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
-  }, [sortedMediaItems]);
+  }, [activeYear, sortedMediaItems]);
 
   return (
     <>
