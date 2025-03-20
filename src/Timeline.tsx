@@ -163,7 +163,7 @@ const CustomTimeline = () => {
             color: "white",
           }}
         >
-          An On Cinema Timeline
+          An unofficial On Cinema timeline
         </h5>
       </div>
       <div
