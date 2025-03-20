@@ -16,6 +16,23 @@ import allMedia from "./data/all_media.json";
 import MediaModal from "./MediaModal";
 import { renderTimelineImage } from "./timelineDotUtils";
 import { TimelineDot } from "@mui/lab";
+import { Dialog, DialogTitle, DialogContent } from "@mui/material";
+
+const AboutModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
+  return (
+    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
+      <DialogTitle>About This Timeline</DialogTitle>
+      <DialogContent>
+        <Typography paragraph>
+          This is a fan-created archive of the On Cinema universe, unaffiliated with the HEI Network.
+        </Typography>
+        <Typography paragraph>
+          You can customize this content in the <code>AboutModal</code> component inside <code>Timeline.tsx</code>.
+        </Typography>
+      </DialogContent>
+    </Dialog>
+  );
+};
 
 const CustomTimeline = () => {
   const [activeYear, setActiveYear] = useState<string | null>(null);
@@ -27,6 +44,7 @@ const CustomTimeline = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedSeasons, setSelectedSeasons] = useState<string[]>(["ALL"]);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [aboutOpen, setAboutOpen] = useState(false);
   const hasOpenedFromURL = useRef(false);
   let currentYear: string | null = null;
 
@@ -145,26 +163,46 @@ const CustomTimeline = () => {
           textAlign: "left",
         }}
       >
-        <h1
-          style={{
-            margin: 0,
-            marginBottom: "0.5rem",
-            fontSize: "clamp(1.5rem, 6vw, 3rem)",
-            color: "white",
-          }}
-        >
-          FiveBagsAndTwoSodas
-        </h1>
-        <h5
-          style={{
-            margin: 0,
-            marginBottom: "0.5rem",
-            fontSize: "clamp(1rem, 4vw, 1.5rem)",
-            color: "white",
-          }}
-        >
-          An unofficial On Cinema timeline
-        </h5>
+        <div style={{ maxWidth: "70%" }}>
+          <h1
+            style={{
+              margin: 0,
+              marginBottom: "0.25rem",
+              fontSize: "clamp(1.5rem, 6vw, 3rem)",
+              color: "white",
+            }}
+          >
+            FiveBagsAndTwoSodas
+          </h1>
+          <h4
+            style={{
+              margin: 0,
+              fontSize: "clamp(1rem, 4vw, 1.25rem)",
+              color: "white",
+            }}
+          >
+            An unofficial On Cinema timeline
+          </h4>
+          <div style={{ position: "absolute", top: "4rem", right: "4rem" }}>
+            <button
+              onClick={() => setAboutOpen(true)}
+              style={{
+                backgroundColor: "#FFDD00",
+                color: "#000",
+                border: "1px solid #000",
+                borderRadius: "4px",
+                padding: "0.5rem 1rem",
+                cursor: "pointer",
+                fontSize: "1rem",
+                fontWeight: "bold",
+                boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+              }}
+            >
+              About
+            </button>
+          </div>
+        </div>
+
       </div>
       <div
         style={{
@@ -796,11 +834,13 @@ const CustomTimeline = () => {
           selectedMedia
             ? sortedMediaItems.findIndex(
                 (m) => m.title === selectedMedia.title,
-              ) ===
-              sortedMediaItems.length - 1
+              ) === sortedMediaItems.length - 1
             : false
         }
-      />
+      >
+      </MediaModal>
+
+      <AboutModal open={aboutOpen} onClose={() => setAboutOpen(false)} />
     </>
   );
 };
