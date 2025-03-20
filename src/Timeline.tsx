@@ -420,7 +420,7 @@ const CustomTimeline = () => {
                   }
                   disableFocusRipple
                   disableRipple
-                  style={{
+                  sx={{
                     padding: "0.25rem",
                     width: "100%",
                     minWidth: "100%",
@@ -435,6 +435,10 @@ const CustomTimeline = () => {
                     outline: "none",
                     flexShrink: 0,
                     transition: "none",
+                    "&:hover": {
+                      outline: "2px solid black",
+                      boxShadow: "none",
+                    },
                   }}
                 >
                   <SwapVertIcon />
@@ -451,7 +455,7 @@ const CustomTimeline = () => {
                           block: "start",
                         });
                     }}
-                    style={{
+                    sx={{
                       cursor: "pointer",
                       padding: "0.25rem 0.5rem",
                       fontWeight: activeYear === year ? "bold" : "normal",
@@ -462,7 +466,29 @@ const CustomTimeline = () => {
                           ? "2px solid #aaa"
                           : "1px solid #ccc",
                       borderRadius: "4px",
-                      textAlign: "left",
+                      boxShadow: "0 0 6px rgba(0, 0, 0, 0.3)",
+                      transition: "all 0.2s ease",
+                      textTransform: "none",
+                      justifyContent: "center",
+                      textAlign: "center",
+                      color: "black",
+                      outline: "none",
+                      "&:hover": {
+                        outline: "2px solid black",
+                        boxShadow: "none",
+                      },
+                      "&:focus": {
+                        outline: "none",
+                        boxShadow: "none",
+                      },
+                      "&:focus-visible": {
+                        outline: "none",
+                        boxShadow: "none",
+                      },
+                      "&.Mui-focusVisible": {
+                        outline: "none",
+                        boxShadow: "none",
+                      },
                     }}
                   >
                     {year}
