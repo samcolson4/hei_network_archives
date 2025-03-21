@@ -181,6 +181,7 @@ const CustomTimeline = () => {
           position: "fixed",
           top: 0,
           left: 0,
+          maxWidth: isMobile ? "100vw" : "100vw",
           width: "100%",
           zIndex: 1000,
           backgroundColor: window.location.hostname.includes("localhost") ? "green" : "black",
@@ -190,7 +191,7 @@ const CustomTimeline = () => {
           textAlign: "left",
         }}
       >
-        <div style={{ maxWidth: isMobile ? "100%" : "70%" }}>
+        <div style={{ maxWidth: isMobile ? "90%" : "70%" }}>
           <h1
             style={{
               margin: 0,
@@ -262,7 +263,7 @@ const CustomTimeline = () => {
         style={{
           display: "flex",
           flexDirection: isMobile ? "column" : "row",
-          width: "100%",
+          maxWidth: isMobile ? "80vw" : "100vw",
           minHeight: "80vh",
           flexWrap: "nowrap",
           alignItems: "flex-start",
@@ -505,7 +506,7 @@ const CustomTimeline = () => {
             paddingTop: isMobile ? "5rem" : "6rem",
             boxSizing: "border-box",
             minHeight: "80vh",
-            maxWidth: isMobile? "70vw" : "100vw"
+            maxWidth: isMobile? "90vw" : "100vw"
           }}
         >
           <Timeline
