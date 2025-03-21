@@ -6,7 +6,7 @@ import Timeline from "@mui/lab/Timeline";
 import TimelineItem from "@mui/lab/TimelineItem";
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
 import TimelineConnector from "@mui/lab/TimelineConnector";
-import FilterListIcon from '@mui/icons-material/FilterList';
+import FilterListIcon from "@mui/icons-material/FilterList";
 import TimelineContent, {
   timelineContentClasses,
 } from "@mui/lab/TimelineContent";
@@ -304,7 +304,7 @@ const CustomTimeline = () => {
                 onClick={() => setSidebarOpen(!sidebarOpen)}
                 style={mobileHeaderButtonStyle}
               >
-                <FilterListIcon/>
+                <FilterListIcon />
               </Button>
               <Button
                 onClick={() => setAboutOpen(true)}
@@ -346,7 +346,7 @@ const CustomTimeline = () => {
           style={{
             position: "fixed",
             top: "10rem",
-            left: "1rem",
+            left: 0,
             padding: "0.25rem",
             height: "calc(100vh - 7.5rem)",
             display: isMobile && !sidebarOpen ? "none" : "block",
