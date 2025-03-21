@@ -36,6 +36,7 @@ const CustomTimeline = () => {
   const [selectedSeasons, setSelectedSeasons] = useState<string[]>(["ALL"]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [aboutOpen, setAboutOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const hasOpenedFromURL = useRef(false);
   let currentYear: string | null = null;
 
@@ -54,6 +55,19 @@ const CustomTimeline = () => {
     color: "black",
     outline: "none",
   });
+
+  const mobileHeaderButtonStyle: React.CSSProperties = {
+    backgroundColor: "#FFDD00",
+    color: "#000",
+    border: "1px solid #000",
+    borderRadius: "4px",
+    padding: "0.25rem 0.5rem",
+    fontSize: "0.875rem",
+    fontWeight: "bold",
+    height: "2rem",
+    boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+    textTransform: "none",
+  };
 
   const getSeasonButtonSx = (selected: boolean): SxProps<Theme> => ({
     ...seasonStyle(selected),
@@ -214,58 +228,81 @@ const CustomTimeline = () => {
             An unofficial On Cinema timeline
           </h4>
           {!isMobile && (
-            <div style={{ position: "absolute", top: "4rem", right: "10rem" }}>
-              <Button
-                onClick={() => {
-                  const randomIndex = Math.floor(
-                    Math.random() * sortedMediaItems.length,
-                  );
-                  const randomItem = sortedMediaItems[randomIndex];
-                  setSelectedMedia(randomItem);
-                  setModalOpen(true);
-                  setSearchParams({ modal: randomItem.title });
-                }}
-                style={{
-                  backgroundColor: "#FFDD00",
-                  color: "#000",
-                  border: "1px solid #000",
-                  borderRadius: "4px",
-                  padding: "0.5rem 1rem",
-                  cursor: "pointer",
-                  fontSize: "1rem",
-                  fontWeight: "bold",
-                  boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
-                }}
+            <>
+              <div
+                style={{ position: "absolute", top: "4rem", right: "10rem" }}
               >
-                Random item
+                <Button
+                  onClick={() => {
+                    const randomIndex = Math.floor(
+                      Math.random() * sortedMediaItems.length,
+                    );
+                    const randomItem = sortedMediaItems[randomIndex];
+                    setSelectedMedia(randomItem);
+                    setModalOpen(true);
+                    setSearchParams({ modal: randomItem.title });
+                  }}
+                  style={{
+                    backgroundColor: "#FFDD00",
+                    color: "#000",
+                    border: "1px solid #000",
+                    borderRadius: "4px",
+                    padding: "0.5rem 1rem",
+                    cursor: "pointer",
+                    fontSize: "1rem",
+                    fontWeight: "bold",
+                    boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+                    textTransform: "none",
+                  }}
+                >
+                  Random item
+                </Button>
+              </div>
+              <div style={{ position: "absolute", top: "4rem", right: "4rem" }}>
+                <Button
+                  onClick={() => setAboutOpen(true)}
+                  style={{
+                    backgroundColor: "#FFDD00",
+                    color: "#000",
+                    border: "1px solid #000",
+                    borderRadius: "4px",
+                    padding: "0.5rem 1rem",
+                    cursor: "pointer",
+                    fontSize: "1rem",
+                    fontWeight: "bold",
+                    boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+                    textTransform: "none",
+                  }}
+                >
+                  About
+                </Button>
+              </div>
+            </>
+          )}
+          {isMobile && (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-start",
+                gap: "0.5rem",
+                left: 0,
+                marginTop: "0.5rem",
+              }}
+            >
+              <Button
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                style={mobileHeaderButtonStyle}
+              >
+                ☰
+              </Button>
+              <Button
+                onClick={() => setAboutOpen(true)}
+                style={mobileHeaderButtonStyle}
+              >
+                About
               </Button>
             </div>
           )}
-          <div
-            style={{
-              position: "absolute",
-              top: isMobile ? "2rem" : "4rem",
-              right: isMobile ? "3.5rem" : "4rem",
-            }}
-          >
-            <Button
-              onClick={() => setAboutOpen(true)}
-              style={{
-                backgroundColor: "#FFDD00",
-                color: "#000",
-                border: "1px solid #000",
-                borderRadius: "4px",
-                padding: isMobile ? "0.25rem 0.5rem" : "0.5rem 1rem",
-                cursor: "pointer",
-                fontSize: isMobile ? "0.75rem" : "1rem",
-                fontWeight: "bold",
-                boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
-                minWidth: isMobile ? "unset" : "auto",
-              }}
-            >
-              About
-            </Button>
-          </div>
         </div>
       </div>
       <div
@@ -279,6 +316,20 @@ const CustomTimeline = () => {
           gap: "clamp(1rem, 5vw, 6rem)",
         }}
       >
+        {isMobile && sidebarOpen && (
+          <div
+            onClick={() => setSidebarOpen(false)}
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100vw",
+              height: "100vh",
+              backgroundColor: "rgba(0, 0, 0, 0.4)",
+              zIndex: 998,
+            }}
+          />
+        )}
         <div
           className="sidebar"
           style={{
@@ -287,7 +338,7 @@ const CustomTimeline = () => {
             left: "1rem",
             padding: "0.25rem",
             height: "calc(100vh - 7.5rem)",
-            display: isMobile ? "none" : "block",
+            display: isMobile && !sidebarOpen ? "none" : "block",
             background: "#fff",
             zIndex: 999,
             overflowY: "auto",
@@ -308,7 +359,7 @@ const CustomTimeline = () => {
               <div
                 style={{
                   flex: "1 1 auto",
-                  display: "flex",
+                  display: isMobile && !sidebarOpen ? "none" : "flex",
                   flexDirection: "column",
                   gap: "0.5rem",
                   maxHeight: "80vh",
@@ -411,99 +462,100 @@ const CustomTimeline = () => {
                 ))}
               </div>
               {/* Year Column */}
-              <div
-                style={{
-                  flex: "1 1 auto",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "0.5rem",
-                  marginRight: "0.375rem",
-
-                  paddingRight: "0.375rem",
-                }}
-              >
-                <ToggleButton
-                  value="sortToggle"
-                  selected={sortOrder === "desc"}
-                  onChange={() =>
-                    setSortOrder((prev) => (prev === "desc" ? "asc" : "desc"))
-                  }
-                  disableFocusRipple
-                  disableRipple
-                  sx={{
-                    padding: "0.25rem",
-                    width: "100%",
-                    minWidth: "100%",
-                    height: "2rem",
-                    minHeight: "2rem",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    boxShadow: "none",
-                    border: "1px solid #ccc",
-                    backgroundColor: "transparent",
-                    outline: "none",
-                    flexShrink: 0,
-                    transition: "none",
-                    "&:hover": {
-                      outline: "2px solid black",
-                      boxShadow: "none",
-                    },
+              {(!isMobile || (isMobile && false)) && (
+                <div
+                  style={{
+                    display: isMobile ? "none" : "flex",
+                    flex: "1 1 auto",
+                    flexDirection: "column",
+                    gap: "0.5rem",
+                    marginRight: "0.375rem",
+                    paddingRight: "0.375rem",
                   }}
                 >
-                  <SwapVertIcon />
-                </ToggleButton>
-
-                {allYears.map((year) => (
-                  <Button
-                    key={year}
-                    onClick={() => {
-                      const el = document.getElementById(`year-${year}`);
-                      if (el)
-                        el.scrollIntoView({
-                          behavior: "smooth",
-                          block: "start",
-                        });
-                    }}
+                  <ToggleButton
+                    value="sortToggle"
+                    selected={sortOrder === "desc"}
+                    onChange={() =>
+                      setSortOrder((prev) => (prev === "desc" ? "asc" : "desc"))
+                    }
+                    disableFocusRipple
+                    disableRipple
                     sx={{
-                      cursor: "pointer",
-                      padding: "0.25rem 0.5rem",
-                      fontWeight: activeYear === year ? "bold" : "normal",
-                      backgroundColor:
-                        activeYear === year ? "#ddd" : "transparent",
-                      border:
-                        activeYear === year
-                          ? "2px solid #aaa"
-                          : "1px solid #ccc",
-                      borderRadius: "4px",
-                      transition: "all 0.2s ease",
-                      textTransform: "none",
+                      padding: "0.25rem",
+                      width: "100%",
+                      minWidth: "100%",
+                      height: "2rem",
+                      minHeight: "2rem",
+                      display: "flex",
+                      alignItems: "center",
                       justifyContent: "center",
-                      textAlign: "center",
-                      color: "black",
+                      boxShadow: "none",
+                      border: "1px solid #ccc",
+                      backgroundColor: "transparent",
                       outline: "none",
+                      flexShrink: 0,
+                      transition: "none",
                       "&:hover": {
                         outline: "2px solid black",
                         boxShadow: "none",
                       },
-                      "&:focus": {
-                        outline: "none",
-                        boxShadow: "none",
-                      },
-                      "&:focus-visible": {
-                        outline: "none",
-                        boxShadow: "none",
-                      },
-                      "&.Mui-focusVisible": {
-                        outline: "none",
-                        boxShadow: "none",
-                      },
                     }}
                   >
-                    {year}
-                  </Button>
-                ))}
-              </div>
+                    <SwapVertIcon />
+                  </ToggleButton>
+
+                  {allYears.map((year) => (
+                    <Button
+                      key={year}
+                      onClick={() => {
+                        const el = document.getElementById(`year-${year}`);
+                        if (el)
+                          el.scrollIntoView({
+                            behavior: "smooth",
+                            block: "start",
+                          });
+                      }}
+                      sx={{
+                        cursor: "pointer",
+                        padding: "0.25rem 0.5rem",
+                        fontWeight: activeYear === year ? "bold" : "normal",
+                        backgroundColor:
+                          activeYear === year ? "#ddd" : "transparent",
+                        border:
+                          activeYear === year
+                            ? "2px solid #aaa"
+                            : "1px solid #ccc",
+                        borderRadius: "4px",
+                        transition: "all 0.2s ease",
+                        textTransform: "none",
+                        justifyContent: "center",
+                        textAlign: "center",
+                        color: "black",
+                        outline: "none",
+                        "&:hover": {
+                          outline: "2px solid black",
+                          boxShadow: "none",
+                        },
+                        "&:focus": {
+                          outline: "none",
+                          boxShadow: "none",
+                        },
+                        "&:focus-visible": {
+                          outline: "none",
+                          boxShadow: "none",
+                        },
+                        "&.Mui-focusVisible": {
+                          outline: "none",
+                          boxShadow: "none",
+                        },
+                      }}
+                    >
+                      {year}
+                    </Button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
