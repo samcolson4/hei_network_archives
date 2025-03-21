@@ -1,25 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Modal, Box, Typography } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import { renderTimelineImage } from "./timelineDotUtils";
 import type { MediaItem } from "./types";
-
-const style = {
-  position: "absolute" as const,
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "90%",
-  maxWidth: 500,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  borderRadius: "8px",
-  boxShadow: 24,
-  p: 4,
-  outline: "none",
-};
 
 interface MediaModalProps {
   open: boolean;
@@ -40,6 +25,7 @@ const MediaModal: React.FC<MediaModalProps> = ({
   isFirst,
   isLast,
 }) => {
+  const [isMobile] = useState(window.innerWidth < 768);
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (!open) return;
@@ -73,7 +59,23 @@ const MediaModal: React.FC<MediaModalProps> = ({
 
   return (
     <Modal open={open} onClose={onClose}>
-      <Box sx={style}>
+      <Box
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: isMobile ? "80%" : "90%",
+          maxHeight: isMobile ? "70%" : "80%",
+          maxWidth: 500,
+          bgcolor: "background.paper",
+          border: "2px solid #000",
+          borderRadius: "8px",
+          boxShadow: 24,
+          p: 4,
+          outline: "none",
+        }}
+      >
         <Box
           sx={{
             position: "absolute",
@@ -105,7 +107,14 @@ const MediaModal: React.FC<MediaModalProps> = ({
             <img
               src={customPosterUrl}
               alt={media.title}
-              style={{ maxWidth: "100%", height: "auto", borderRadius: "4px" }}
+              style={{
+                maxWidth: "100%",
+                maxHeight: "300px",
+                height: "auto",
+                width: "auto",
+                objectFit: "contain",
+                borderRadius: "4px"
+              }}
             />
           </Box>
         )}
