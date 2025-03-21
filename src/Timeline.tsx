@@ -69,6 +69,16 @@ const CustomTimeline = () => {
     textTransform: "none",
   };
 
+  const toggleSeason = (seasonKey: string) => {
+    setSelectedSeasons((prev) => {
+      let newSeasons = prev.includes(seasonKey)
+        ? prev.filter((s) => s !== seasonKey)
+        : [...prev.filter((s) => s !== "ALL"), seasonKey];
+      if (newSeasons.length === 0) newSeasons = ["ALL"];
+      return newSeasons;
+    });
+  };
+
   const getSeasonButtonSx = (selected: boolean): SxProps<Theme> => ({
     ...seasonStyle(selected),
     "&:hover": {
@@ -381,60 +391,28 @@ const CustomTimeline = () => {
                 <hr style={{ margin: "0.25rem 0" }} />
 
                 <Button
-                  onClick={() => {
-                    setSelectedSeasons((prev) => {
-                      let newSeasons = prev.includes("ON_CINEMA")
-                        ? prev.filter((s) => s !== "ON_CINEMA")
-                        : [...prev.filter((s) => s !== "ALL"), "ON_CINEMA"];
-                      if (newSeasons.length === 0) newSeasons = ["ALL"];
-                      return newSeasons;
-                    });
-                  }}
+                  onClick={() => toggleSeason("ON_CINEMA")}
                   sx={getSeasonButtonSx(selectedSeasons.includes("ON_CINEMA"))}
                 >
                   On Cinema
                 </Button>
 
                 <Button
-                  onClick={() => {
-                    setSelectedSeasons((prev) => {
-                      let newSeasons = prev.includes("DECKER")
-                        ? prev.filter((s) => s !== "DECKER")
-                        : [...prev.filter((s) => s !== "ALL"), "DECKER"];
-                      if (newSeasons.length === 0) newSeasons = ["ALL"];
-                      return newSeasons;
-                    });
-                  }}
+                  onClick={() => toggleSeason("DECKER")}
                   sx={getSeasonButtonSx(selectedSeasons.includes("DECKER"))}
                 >
                   Decker
                 </Button>
 
                 <Button
-                  onClick={() => {
-                    setSelectedSeasons((prev) => {
-                      let newSeasons = prev.includes("BONUS")
-                        ? prev.filter((s) => s !== "BONUS")
-                        : [...prev.filter((s) => s !== "ALL"), "BONUS"];
-                      if (newSeasons.length === 0) newSeasons = ["ALL"];
-                      return newSeasons;
-                    });
-                  }}
+                  onClick={() => toggleSeason("BONUS")}
                   sx={getSeasonButtonSx(selectedSeasons.includes("BONUS"))}
                 >
                   Bonus content
                 </Button>
 
                 <Button
-                  onClick={() => {
-                    setSelectedSeasons((prev) => {
-                      let newSeasons = prev.includes("META")
-                        ? prev.filter((s) => s !== "META")
-                        : [...prev.filter((s) => s !== "ALL"), "META"];
-                      if (newSeasons.length === 0) newSeasons = ["ALL"];
-                      return newSeasons;
-                    });
-                  }}
+                  onClick={() => toggleSeason("META")}
                   sx={getSeasonButtonSx(selectedSeasons.includes("META"))}
                 >
                   Meta content
@@ -443,18 +421,7 @@ const CustomTimeline = () => {
                 {allSeasonNames.map((season) => (
                   <Button
                     key={season}
-                    onClick={() => {
-                      setSelectedSeasons((prev) => {
-                        let newSeasons = prev.includes(season)
-                          ? prev.filter((s) => s !== season)
-                          : [...prev.filter((s) => s !== "ALL"), season];
-
-                        if (newSeasons.length === 0) newSeasons = ["ALL"];
-                        return newSeasons.filter(
-                          (s): s is string => typeof s === "string",
-                        );
-                      });
-                    }}
+                    onClick={() => toggleSeason(season)}
                     sx={getSeasonButtonSx(selectedSeasons.includes(season))}
                   >
                     {formatLabel(season)}
