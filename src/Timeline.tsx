@@ -466,7 +466,6 @@ const CustomTimeline = () => {
                           ? "2px solid #aaa"
                           : "1px solid #ccc",
                       borderRadius: "4px",
-                      boxShadow: "0 0 6px rgba(0, 0, 0, 0.3)",
                       transition: "all 0.2s ease",
                       textTransform: "none",
                       justifyContent: "center",
