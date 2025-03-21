@@ -183,7 +183,7 @@ const CustomTimeline = () => {
           left: 0,
           width: "100%",
           zIndex: 1000,
-          backgroundColor: "black",
+          backgroundColor: window.location.hostname.includes("localhost") ? "green" : "black",
           borderBottom: "1px solid #ccc",
           padding: "1rem",
           paddingLeft: "2rem",
