@@ -184,7 +184,9 @@ const CustomTimeline = () => {
           maxWidth: isMobile ? "100vw" : "100vw",
           width: "100%",
           zIndex: 1000,
-          backgroundColor: window.location.hostname.includes("localhost") ? "green" : "black",
+          backgroundColor: window.location.hostname.includes("localhost")
+            ? "green"
+            : "black",
           borderBottom: "1px solid #ccc",
           padding: "1rem",
           paddingLeft: "2rem",
@@ -239,7 +241,13 @@ const CustomTimeline = () => {
               </Button>
             </div>
           )}
-          <div style={{ position: "absolute", top: "4rem", right: "4rem" }}>
+          <div
+            style={{
+              position: "absolute",
+              top: isMobile ? "2rem" : "4rem",
+              right: isMobile ? "3.5rem" : "4rem",
+            }}
+          >
             <Button
               onClick={() => setAboutOpen(true)}
               style={{
@@ -247,11 +255,12 @@ const CustomTimeline = () => {
                 color: "#000",
                 border: "1px solid #000",
                 borderRadius: "4px",
-                padding: "0.5rem 1rem",
+                padding: isMobile ? "0.25rem 0.5rem" : "0.5rem 1rem",
                 cursor: "pointer",
-                fontSize: "1rem",
+                fontSize: isMobile ? "0.75rem" : "1rem",
                 fontWeight: "bold",
                 boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+                minWidth: isMobile ? "unset" : "auto",
               }}
             >
               About
@@ -506,7 +515,7 @@ const CustomTimeline = () => {
             paddingTop: isMobile ? "5rem" : "6rem",
             boxSizing: "border-box",
             minHeight: "80vh",
-            maxWidth: isMobile? "90vw" : "100vw"
+            maxWidth: isMobile ? "90vw" : "100vw",
           }}
         >
           <Timeline
