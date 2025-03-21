@@ -1,10 +1,10 @@
-import PopcornIcon from "../public/popcorn.png";
-import SodaIcon from "../public/soda.png";
-import DeckerIcon from "../public/decker_phone.png";
-import HeiLogo from "../public/hei_logo.png";
-import OscarIcon from "../public/oscar.png";
-import PodcastIcon from "../public/podcast_logo.png";
-import MovieStarIcon from "../public/movie_star.png";
+import PopcornIcon from "/popcorn.png";
+import SodaIcon from "/soda.png";
+import DeckerIcon from "/decker_phone.png";
+import HeiLogo from "/hei_logo.png";
+import OscarIcon from "/oscar.png";
+import PodcastIcon from "/podcast_logo.png";
+import MovieStarIcon from "/movie_star.png";
 
 interface MediaItem {
   franchise: string | null;

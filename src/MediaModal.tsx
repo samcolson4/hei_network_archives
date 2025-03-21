@@ -60,9 +60,9 @@ const MediaModal: React.FC<MediaModalProps> = ({
 
   const customPosterUrl =
     media.season_name === "On Cinema On Demand Encore"
-      ? "/public/ocod_encore_poster.png"
+      ? "/ocod_encore_poster.png"
       : media.season_name === "The Podcast"
-      ? "/public/podcast.jpg"
+      ? "/podcast.jpg"
       : media.poster_url;
 
   const formatLabel = (str: string) =>
