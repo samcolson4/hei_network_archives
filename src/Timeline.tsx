@@ -190,7 +190,7 @@ const CustomTimeline = () => {
           textAlign: "left",
         }}
       >
-        <div style={{ maxWidth: "70%" }}>
+        <div style={{ maxWidth: isMobile ? "100%" : "70%" }}>
           <h1
             style={{
               margin: 0,
@@ -500,11 +500,12 @@ const CustomTimeline = () => {
         <div
           style={{
             flex: 1,
-            padding: isMobile ? "1rem 0.5rem" : "2rem",
-            paddingLeft: isMobile ? "0.5rem" : "10rem",
+            padding: isMobile ? "0rem" : "2rem",
+            paddingLeft: isMobile ? "0rem" : "10rem",
             paddingTop: isMobile ? "5rem" : "6rem",
             boxSizing: "border-box",
             minHeight: "80vh",
+            maxWidth: isMobile? "70vw" : "100vw"
           }}
         >
           <Timeline
@@ -556,7 +557,6 @@ const CustomTimeline = () => {
                           color="textSecondary"
                           sx={{
                             flex: 0.2,
-                            minWidth: "80px",
                             pr: 2,
                             display: "flex",
                             alignItems: "center",
@@ -580,7 +580,7 @@ const CustomTimeline = () => {
                         color="textSecondary"
                         sx={{
                           flex: 0.2,
-                          minWidth: "80px",
+                          minWidth: "2vw",
                           pr: 2,
                           display: "flex",
                           alignItems: "center",
@@ -667,7 +667,7 @@ const CustomTimeline = () => {
                             border: "2px solid #ccc",
                             borderRadius: "8px",
                             padding: "0.5rem",
-                            width: isMobile ? "100%" : "25rem",
+                            width: isMobile ? "100%" : "min(100%, 25rem)",
                             transition:
                               "box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out",
                             "&:hover": {
