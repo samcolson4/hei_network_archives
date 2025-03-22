@@ -38,6 +38,8 @@ const CustomTimeline = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [aboutOpen, setAboutOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const headerRef = useRef<HTMLDivElement | null>(null);
+  const [headerHeight, setHeaderHeight] = useState<number>(0);
   const hasOpenedFromURL = useRef(false);
   let currentYear: string | null = null;
 
@@ -199,9 +201,22 @@ const CustomTimeline = () => {
     return () => observer.disconnect();
   }, [activeYear, sortedMediaItems]);
 
+  useEffect(() => {
+    const measureHeader = () => {
+      if (headerRef.current) {
+        setHeaderHeight(headerRef.current.offsetHeight);
+      }
+    };
+
+    measureHeader();
+    window.addEventListener("resize", measureHeader);
+    return () => window.removeEventListener("resize", measureHeader);
+  }, []);
+
   return (
     <>
       <div
+        ref={headerRef}
         style={{
           position: "fixed",
           top: 0,
@@ -345,14 +360,16 @@ const CustomTimeline = () => {
           className="sidebar"
           style={{
             position: "fixed",
-            top: "10rem",
+            top: 0,
             left: 0,
-            padding: "0.25rem",
-            height: "calc(100vh - 7.5rem)",
+            paddingTop: `${headerHeight}px`,
+            width: isMobile && sidebarOpen ? "100vw" : "auto",
+            height: isMobile && sidebarOpen ? "100vh" : "calc(100vh - 7.5rem)",
             display: isMobile && !sidebarOpen ? "none" : "block",
             background: "#fff",
             zIndex: 999,
             overflowY: "auto",
+            padding: isMobile ? "1rem" : "0.25rem",
           }}
         >
           <div
@@ -373,7 +390,7 @@ const CustomTimeline = () => {
                   display: isMobile && !sidebarOpen ? "none" : "flex",
                   flexDirection: "column",
                   gap: "0.5rem",
-                  maxHeight: "80vh",
+                  height: "calc(100vh - 4rem)",
                   overflowY: "auto",
                   overflowX: "hidden",
                   wordBreak: "break-word",
@@ -532,7 +549,7 @@ const CustomTimeline = () => {
             flex: 1,
             padding: isMobile ? "0rem" : "2rem",
             paddingLeft: isMobile ? "0rem" : "10rem",
-            paddingTop: isMobile ? "5rem" : "6rem",
+            paddingTop: `${headerHeight}px`,
             boxSizing: "border-box",
             minHeight: "80vh",
             maxWidth: isMobile ? "90vw" : "100vw",
